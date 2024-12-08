@@ -21,6 +21,9 @@ const Step1 = ({
   checkBox1,
   checkBox2,
 }) => {
+  // Initialize checkboxesRef with useRef
+  const checkboxesRef = useRef([]);
+
   return (
     <>
       {/* section1 */}
@@ -44,17 +47,16 @@ const Step1 = ({
           <VStack spacing={4} w="full">
             <Box w="full">
               <Flex mb={8} justify="flex-start">
-                {/* <Checkbox
+                <Checkbox
                   size="lg"
                   isChecked={checkBox1}
                   onChange={(e) => handleCheckBox(e, 1)}
-                  ref={(el) => (checkboxesRef.current[1] = el)}
                   colorScheme="teal"
                 >
                   <Text fontSize={{ base: "sm", md: "lg" }} ml={2}>
                     (필수) 이용약관
                   </Text>
-                </Checkbox> */}
+                </Checkbox>
               </Flex>
               <Box
                 border="2px solid"
@@ -70,17 +72,16 @@ const Step1 = ({
             {/* 개인정보 수집 이용 동의서 체크박스 */}
             <Box w="full">
               <Flex mb={8} justify="flex-start">
-                {/* <Checkbox
+                <Checkbox
                   size="lg"
                   isChecked={checkBox2}
                   onChange={(e) => handleCheckBox(e, 2)}
-                  ref={(el) => (checkboxesRef.current[2] = el)}
                   colorScheme="teal"
                 >
                   <Text fontSize={{ base: "sm", md: "lg" }} ml={2}>
                     (필수) 개인정보 수집 이용 동의서
                   </Text>
-                </Checkbox> */}
+                </Checkbox>
               </Flex>
               <Box
                 border="2px solid"
@@ -105,17 +106,16 @@ const Step1 = ({
             align="center"
             gap={3}
           >
-            {/* <Checkbox
+            <Checkbox
               size="lg"
               isChecked={isAllChecked}
               onChange={(e) => handleCheckBox(e, 0)}
-              ref={(el) => (checkboxesRef.current[0] = el)}
               colorScheme="teal"
             >
               <Text fontSize={{ base: "sm", md: "lg" }}>
                 위의 내용을 모두 읽었으며 이에 동의합니다.
               </Text>
-            </Checkbox> */}
+            </Checkbox>
           </Flex>
 
           {/* 다음 단계 버튼 */}

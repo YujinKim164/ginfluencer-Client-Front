@@ -12,6 +12,9 @@ html {
 }
 
 body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   font-family: "Noto Sans KR", "Spoqa Hans Sans Neo", "Roboto", sans-serif;
 }
 
@@ -1820,7 +1823,9 @@ section.login .btn-494 {
 }
 
 main {
-  padding-top: 12rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 @media screen and (min-width: 1300px) {
   main {
@@ -1834,6 +1839,7 @@ main {
   letter-spacing: -0.025em;
   background: #2e2e2e;
   color: #a1a1a1;
+  margin-top: auto; /* 콘텐츠 아래로 Footer 밀기 */
 }
 .footer .footer-wrap .footer-top {
   border-bottom: 1px solid #434343;

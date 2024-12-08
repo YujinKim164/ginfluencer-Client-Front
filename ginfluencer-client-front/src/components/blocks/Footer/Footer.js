@@ -19,6 +19,9 @@ const Footer = () => {
       letterSpacing="-0.025em"
       paddingY={{ base: "21px", md: "10px" }}
       paddingLeft={{ base: "16px", md: "32px" }}
+      left="0"
+      width="100%"
+      zIndex="10"
     >
       {/* Footer Top Section */}
       <Box

@@ -124,8 +124,11 @@ export default function Header({ user, handleLogout }) {
             display={{ base: "none", lg: "flex" }}
             flex="1"
             justifyContent="center"
+            width="100%" // Ensure it stretches across full width
           >
-            <HStack as={List} spacing={4} width="100%">
+            <HStack as={List} spacing={4} width="100%" justify="center">
+              {" "}
+              {/* Added justify="center" */}
               {navigation.map((item) => (
                 <ListItem key={item.name} listStyleType="none">
                   <Link

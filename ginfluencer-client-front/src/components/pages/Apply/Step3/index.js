@@ -1,5 +1,7 @@
-const Step3List = () => {
-  return <div></div>;
+import Step3 from "./Step3";
+
+const Index = () => {
+  return <Step3 />;
 };
 
-export default Step3List;
+export default Index;

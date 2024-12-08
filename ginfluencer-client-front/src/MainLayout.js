@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
-//import { MyPageAPI } from './api';
+import { Box, Flex } from "@chakra-ui/react";
 import Header from "./components/blocks/Header/Header";
 import Footer from "./components/blocks/Footer/Footer";
 
@@ -9,17 +9,21 @@ const MainLayout = ({ children }) => {
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
-    <div>
+    <Flex direction="column" height="100vh" overflow="hidden">
       {!isAdminRoute ? (
         <>
           <Header />
-          {children}
-          <Footer />
+          <Box as="main" flex="1" overflowY="auto" width="100%">
+            {children}
+          </Box>
+          {/* <Footer /> */}
         </>
       ) : (
-        <>{children}</>
+        <Box as="main" flex="1" overflowY="auto" width="100%">
+          {children}
+        </Box>
       )}
-    </div>
+    </Flex>
   );
 };
 

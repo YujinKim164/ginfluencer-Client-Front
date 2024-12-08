@@ -1,5 +1,5 @@
-const Step2List = () => {
+const Index = () => {
   return <div></div>;
 };
 
-export default Step2List;
+export default Index;
