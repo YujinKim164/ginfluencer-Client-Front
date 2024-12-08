@@ -13,6 +13,7 @@ export default function Stats() {
       value: 0,
       finalValue: 0,
       icon: icon1,
+      scale: "원",
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ export default function Stats() {
       value: 0,
       finalValue: 0,
       icon: icon2,
+      scale: "명",
     },
     {
       id: 3,
@@ -27,6 +29,7 @@ export default function Stats() {
       value: 0,
       finalValue: 0,
       icon: icon3,
+      scale: "원",
     },
   ]);
 
@@ -37,14 +40,14 @@ export default function Stats() {
           `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
 
-        const data = response.data;
+        const data = response.data[0]; // API 응답이 배열이므로 첫 번째 요소를 가져옴
 
         setStats([
           {
             id: 1,
             name: "누적금액",
             value: 0,
-            finalValue: parseInt(data.totalDonations.replace(/,/g, ""), 10),
+            finalValue: data.totalDonation,
             icon: icon1,
             scale: "원",
           },
@@ -52,7 +55,7 @@ export default function Stats() {
             id: 2,
             name: "기부자",
             value: 0,
-            finalValue: parseInt(data.totalDonors.replace(/,/g, ""), 10),
+            finalValue: data.totalCount,
             icon: icon2,
             scale: "명",
           },
@@ -60,7 +63,7 @@ export default function Stats() {
             id: 3,
             name: "사용금액",
             value: 0,
-            finalValue: parseInt(data.totalExpenses.replace(/,/g, ""), 10),
+            finalValue: data.totalSpend,
             icon: icon3,
             scale: "원",
           },
