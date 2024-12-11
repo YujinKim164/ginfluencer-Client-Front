@@ -20,37 +20,48 @@ const Apply = ({ onDownload }) => {
   const textSize = useBreakpointValue({ base: "sm", md: "lg" });
 
   return (
-    <Box py={8} px={4} maxW="1200px" mx="auto">
+    <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }} h="100vh">
       <ApplyPageHeader IMG={banner} />
-      <VStack spacing={8} align="start" mb={16}>
-        <Text
-          fontSize={{ base: "2xl", md: "5xl" }}
-          fontWeight="bold"
-          lineHeight="tight"
+      <Box w="full" mb={12}>
+        <Box
+          mx={{ base: 4, md: 10 }}
+          mt={{ base: 8, md: 12 }}
+          mb={{ base: 12, md: 16 }}
         >
-          세상을 위한 좋은 변화를 위해{" "}
-          <Box as="br" display={{ base: "none", md: "block" }} />
-          함께하실 분들은 신청해주세요!
-        </Text>
-        <Text fontSize={textSize} lineHeight="tall">
-          사단법인 선한영향력가게는 결식우려아동급식카드 소지 아동 대상과
-          단체들에 <Box as="br" display={{ base: "none", md: "block" }} />
-          무료 또는 할인가격으로 급식 또는 매장 업종 서비스로 후원함을 목적으로
-          운영됩니다.
-        </Text>
-        <Flex>
-          <Link href="/apply/step1" _hover={{ textDecoration: "none" }}>
-            <Button
-              colorScheme="yellow"
-              size="lg"
-              rightIcon={<ArrowRight size={10} strokeWidth={1.8} />}
-              rounded="full"
-            >
-              선한영향력가게 동행 신청
-            </Button>
-          </Link>
-        </Flex>
-      </VStack>
+          <Text
+            fontSize={{ base: "2xl", md: "5xl" }}
+            fontWeight="semibold"
+            mb={4}
+            letterSpacing="-2px"
+          >
+            세상을 위한 좋은 변화를 위해
+            <br /> 함께하실 분들은 신청해주세요!
+          </Text>
+          <Text
+            fontSize={{ base: "sm", md: "md" }}
+            fontWeight="semibold"
+            lineHeight={{ base: "tall", md: "taller" }}
+            mb={4}
+          >
+            사단법인 선한영향력가게는 결식우려아동급식카드 소지 아동 대상과
+            단체들에 <Box as="br" display={{ base: "none", md: "block" }} />
+            무료 또는 할인가격으로 급식 또는 매장 업종 서비스로 후원함을
+            목적으로 운영됩니다.
+          </Text>
+          <Flex>
+            <Link href="/apply/step1" _hover={{ textDecoration: "none" }}>
+              <Button
+                colorScheme="yellow"
+                size="lg"
+                rightIcon={<ArrowRight size={10} strokeWidth={1.8} />}
+                rounded="full"
+              >
+                선한영향력가게 동행 신청
+              </Button>
+            </Link>
+          </Flex>
+        </Box>
+      </Box>
       <Flex direction={{ base: "column", md: "row" }} gap={8}>
         {/* 첫 번째 카드 */}
         <Box

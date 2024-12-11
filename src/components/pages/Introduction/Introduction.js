@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
   Flex,
   Grid,
+  Select,
+  Tabs,
+  TabList,
+  Tab,
   Image,
   Button,
   VStack,
   Heading,
   Divider,
 } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import ApplyPageHeader from "../../atoms/ApplyPageHeader";
 import IntroTab from "../../atoms/IntroTab";
-import { Element as ScrollElement, Link } from "react-scroll"; // react-scroll을 사용하여 이동
+import { Element as ScrollElement, Link as ScrollLink } from "react-scroll";
 import banner from "../../../assets/images/intro_banner.png";
 import img1 from "../../../assets/images/intro_img_1.png";
 import img2 from "../../../assets/images/intro_img_2.png";
@@ -24,6 +29,29 @@ import button3 from "../../../assets/images/intro_button_3.png";
 import Map from "./Map";
 
 const Introduction = ({ onDownload }) => {
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [currentTab, setCurrentTab] = useState("의장인사말");
+
+  const tabs = [
+    { name: "의장인사말", href: "의장인사말" },
+    { name: "CI", href: "CI" },
+    { name: "연혁", href: "연혁" },
+    { name: "찾아오시는 길", href: "찾아오시는 길" },
+  ];
+
+  const handleSelectTab = (event) => {
+    setCurrentTab(event.target.value);
+    document.getElementsByName(event.target.value)[0].scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  const handleTabClick = (name, href) => {
+    setCurrentTab(name);
+    document.getElementsByName(href)[0].scrollIntoView({
+      behavior: "smooth",
+    });
+  };
   return (
     <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }} h="100vh">
       <ApplyPageHeader IMG={banner} />
@@ -59,19 +87,65 @@ const Introduction = ({ onDownload }) => {
         </Box>
 
         <VStack spacing={16}>
-          <IntroTab />
+          <Box>
+            {isMobile ? (
+              <Select
+                onChange={handleSelectTab}
+                focusBorderColor="black"
+                size="lg"
+              >
+                {tabs.map((tab) => (
+                  <option key={tab.name} value={tab.name}>
+                    {tab.name}
+                  </option>
+                ))}
+              </Select>
+            ) : (
+              <Tabs variant="unstyled" align="center">
+                <TabList borderBottom="2px solid #E2E8F0">
+                  {tabs.map((tab) => (
+                    <Flex key={tab.name}>
+                      <Tab
+                        fontWeight="bold"
+                        fontSize="xl"
+                        color={currentTab === tab.name ? "black" : "gray.500"}
+                        borderBottom={
+                          currentTab === tab.name
+                            ? "2px solid black"
+                            : "2px solid gray.400"
+                        }
+                        onClick={() => handleTabClick(tab.name, tab.href)}
+                        _hover={{
+                          color: "gray.700",
+                          borderBottom: "2px solid gray.600",
+                        }}
+                        _selected={{
+                          color: "black",
+                        }}
+                      >
+                        {tab.name}
+                      </Tab>
+                    </Flex>
+                  ))}
+                </TabList>
+              </Tabs>
+            )}
+          </Box>{" "}
           <Box ml={{ base: 0, md: 10 }}>
             <ScrollElement name="의장인사말">
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
-                gap={6}
                 mb={20}
               >
-                <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold">
+                <Text
+                  fontSize={{ base: "2xl", md: "3xl" }}
+                  fontWeight="bold"
+                  letterSpacing="-1.5px"
+                >
                   의장인사말
                 </Text>
                 <Image src={img1} alt="의장 이미지" />
-                <Text fontSize={{ base: "lg", md: "xl" }}>
+                <Text fontSize={{ base: "lg", md: "xl" }} letterSpacing="-1px">
                   "안녕하세요. 선한영향력가게 의장 오인태입니다.
                   <br />
                   2019년 첫걸음을 뗀 선한영향력가게는 많은 분들의 참여와
@@ -92,35 +166,103 @@ const Introduction = ({ onDownload }) => {
             <ScrollElement name="CI">
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
-                gap={6}
                 mb={20}
               >
                 <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold">
                   CI
                 </Text>
-                <Image src={img2} alt="CI" />
-                <Box>
-                  <Text fontSize={{ base: "lg", md: "xl" }}>
-                    결식아동을 위한 선한영향력가게와 잘 어울리도록 아이의 즐거운
-                    표정을 형상화하여 아이들과 선한영향력가게에 참여하는 모든
-                    이들의 순수한 마음을 상징합니다.
-                  </Text>
+
+                <Box className="w-3/4 md:w-1/2 justify-center">
+                  <Image src={img2} alt="CI" mb={24} />
+                </Box>
+
+                <Box className="w-full" textAlign="left">
                   <Text
                     fontSize={{ base: "lg", md: "xl" }}
-                    color="gray.500"
-                    mb={4}
+                    fontWeight="medium"
+                    mb={12}
+                    letterSpacing="-1px"
                   >
-                    심벌 및 마크를 올바르게 사용하기 위해서는 사용원칙과 지침을
-                    정확히 이해하고 적용하며 사용 및 실제작을 진행하기에 앞서
-                    담당부서의 협조를 받으시길 바랍니다.
+                    결식아동을 위한 선한영향력가게와 잘 어울리도록 아이의 즐거운
+                    표정을 형상화하여
+                    <br className="hidden md:inline" />
+                    아이들과 선한영향력가게에 참여하는 모든이들의 순수한 마음을
+                    상징
                   </Text>
-                  <Flex gap={4}>
-                    <Button as="a" href={button1} onClick={onDownload}>
-                      AI 다운로드
-                    </Button>
-                    <Button as="a" href={button2} onClick={onDownload}>
-                      PNG 다운로드
-                    </Button>
+
+                  <Flex direction="column" gap={4}>
+                    <Flex direction="column" gap={4} mb={6}>
+                      <Text
+                        fontSize={{ base: "lg", md: "xl" }}
+                        fontWeight="medium"
+                      >
+                        CI 사용가이드
+                      </Text>
+                      <Text fontSize="lg" fontWeight="medium" color="gray.500">
+                        심벌 및 마크를 올바르게 사용하기 위해서는 사용원칙과
+                        지침을 정확히 이해하고 적용하며 사용 및 실제작을
+                        진행하기에 앞서 담당부서의 협조를 받으시길 바랍니다.
+                      </Text>
+                    </Flex>
+
+                    <Flex direction="row" gap={4}>
+                      <Image
+                        name="AI 다운로드"
+                        src={button1}
+                        _hover={{ cursor: "pointer" }}
+                        onClick={onDownload}
+                      />
+                      <Image
+                        name="png 다운로드"
+                        src={button2}
+                        _hover={{ cursor: "pointer" }}
+                        onClick={onDownload}
+                      />
+                    </Flex>
+                  </Flex>
+                </Box>
+              </Grid>
+            </ScrollElement>
+
+            <ScrollElement name="CI_2">
+              <Grid
+                templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
+                mb={20}
+              >
+                <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" />
+
+                <Box className="w-3/4 md:w-1/2 justify-center">
+                  <Image src={img3} alt="CI" />
+                </Box>
+
+                <Box className="w-full" textAlign="left">
+                  <Flex direction="column" gap={24}>
+                    <Flex direction="column" gap={4} mb={6}>
+                      <Text
+                        fontSize={{ base: "lg", md: "xl" }}
+                        fontWeight="medium"
+                      >
+                        CI 사용가이드
+                      </Text>
+                      <Text fontSize="lg" fontWeight="medium" color="gray.500">
+                        배너 사용 가이드 취지에 해치지 않는 선에서 문구와 매장명
+                        등 변경해서 사용 가능합니다.
+                      </Text>
+                    </Flex>
+
+                    <RouterLink
+                      display="flex"
+                      flexDirection="row"
+                      gap={4}
+                      onClick={onDownload}
+                      width={{ base: "28", md: "full" }}
+                    >
+                      <Image
+                        name="배너 다운로드"
+                        src={button3}
+                        _hover={{ cursor: "pointer" }}
+                      />
+                    </RouterLink>
                   </Flex>
                 </Box>
               </Grid>
@@ -129,7 +271,7 @@ const Introduction = ({ onDownload }) => {
             <ScrollElement name="연혁">
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
-                gap={4}
+                mr={30}
               >
                 <Heading
                   as="h2"
@@ -137,6 +279,7 @@ const Introduction = ({ onDownload }) => {
                   fontWeight="bold"
                   textAlign="start"
                   mr={4}
+                  letterSpacing="-1.5px"
                 >
                   연혁
                 </Heading>
@@ -260,6 +403,13 @@ const Introduction = ({ onDownload }) => {
                     ))}
                   </VStack>
                 </Box>
+                <Box colSpan={{ base: 12, md: 3 }} textAlign="start">
+                  <Heading
+                    size={{ base: "xl", md: "2xl" }}
+                    fontWeight="bold"
+                    mr={4}
+                  ></Heading>
+                </Box>
               </Grid>
             </ScrollElement>
 
@@ -275,6 +425,7 @@ const Introduction = ({ onDownload }) => {
                   textAlign="start"
                   mr={4}
                   whiteSpace="nowrap"
+                  letterSpacing="-1.5px"
                 >
                   찾아오시는 길
                 </Heading>

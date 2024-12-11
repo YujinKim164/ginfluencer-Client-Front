@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link as ScrollLink } from "react-scroll";
+import { Link as ScrollLink, scroller } from "react-scroll";
 import {
   Box,
   Select,
@@ -33,9 +33,16 @@ export default function IntroTab() {
           : { ...item, current: false }
       )
     );
+
+    // 해당 섹션으로 스크롤 이동
+    scroller.scrollTo(selectedTab.href, {
+      smooth: true,
+      duration: 500,
+      offset: -70, // 헤더 고려
+    });
   };
 
-  const handleTabClick = (name) => {
+  const handleTabClick = (name, href) => {
     setTabs((prev) =>
       prev.map((item) =>
         item.name === name
@@ -43,6 +50,13 @@ export default function IntroTab() {
           : { ...item, current: false }
       )
     );
+
+    // 해당 섹션으로 스크롤 이동
+    scroller.scrollTo(href, {
+      smooth: true,
+      duration: 500,
+      offset: -70, // 헤더 고려
+    });
   };
 
   return (
@@ -67,7 +81,7 @@ export default function IntroTab() {
                   borderBottom={
                     tab.current ? "2px solid black" : "2px solid gray.400"
                   }
-                  onClick={() => handleTabClick(tab.name)}
+                  onClick={() => handleTabClick(tab.name, tab.href)}
                   _hover={{
                     color: "gray.700",
                     borderBottom: "2px solid gray.600",
@@ -76,14 +90,7 @@ export default function IntroTab() {
                     color: "black",
                   }}
                 >
-                  <ScrollLink
-                    to={tab.href} // react-scroll의 Link 컴포넌트 사용
-                    smooth={true}
-                    duration={500}
-                    offset={-70} // 헤더를 고려하여 약간 위로 조정
-                  >
-                    {tab.name}
-                  </ScrollLink>
+                  {tab.name}
                 </Tab>
               </Flex>
             ))}

@@ -9,7 +9,7 @@ const VIDEO = () => {
     width: "100%",
     playerVars: {
       autoplay: 1,
-      mute: 1,
+      mute: 0,
       loop: 1,
       playlist: videoId,
       controls: 0,
