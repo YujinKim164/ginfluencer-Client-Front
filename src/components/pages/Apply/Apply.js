@@ -20,7 +20,7 @@ const Apply = ({ onDownload }) => {
   const textSize = useBreakpointValue({ base: "sm", md: "lg" });
 
   return (
-    <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }} h="100vh">
+    <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }}>
       <ApplyPageHeader IMG={banner} />
       <Box w="full" mb={12}>
         <Box
@@ -63,7 +63,6 @@ const Apply = ({ onDownload }) => {
         </Box>
       </Box>
       <Flex direction={{ base: "column", md: "row" }} gap={8}>
-        {/* 첫 번째 카드 */}
         <Box
           flex="1"
           p={8}
@@ -100,7 +99,6 @@ const Apply = ({ onDownload }) => {
             right={4}
           />
         </Box>
-        {/* 두 번째 카드 */}
         <Box
           flex="1"
           p={8}

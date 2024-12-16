@@ -15,6 +15,9 @@ import MyInfo from "./components/pages/MyInfo/MyInfo";
 import Donate from "./components/pages/Donate/Donate";
 import BizInfo from "./components/pages/BizInfo/BizInfo";
 import Introduction from "./components/pages/Introduction/Introduction";
+import Terms from "./components/pages/Policy/Terms/Terms";
+import Email from "./components/pages/Policy/Email/Email";
+import Privacy from "./components/pages/Policy/Privacy/Privacy";
 
 function App() {
   return (
@@ -48,6 +51,12 @@ function App() {
         </Route>
 
         <Route path="/donate" element={<Donate />} />
+
+        <Route path="/policy">
+          <Route path="terms" element={<Terms />} />
+          <Route path="email" element={<Email />} />
+          <Route path="privacy" element={<Privacy />} />
+        </Route>
       </Routes>
     </MainLayout>
   );

@@ -9,17 +9,17 @@ const MainLayout = ({ children }) => {
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
-    <Flex direction="column" height="100vh" overflow="hidden">
+    <Flex direction="column" height="100vh" justifyContent="space-between">
       {!isAdminRoute ? (
         <>
           <Header />
-          <Box as="main" flex="1" overflowY="auto" width="100%">
+          <Box as="main" flex="1" width="100%">
             {children}
           </Box>
-          {/* <Footer /> */}
+          <Footer />
         </>
       ) : (
-        <Box as="main" flex="1" overflowY="auto" width="100%">
+        <Box as="main" flex="1" width="100%">
           {children}
         </Box>
       )}

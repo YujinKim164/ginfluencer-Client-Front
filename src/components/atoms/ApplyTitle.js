@@ -15,9 +15,12 @@ const ApplyTitle = ({ title }) => {
         fontSize={{ base: "xl", md: "5xl" }}
         fontWeight="bold"
         textDecoration="underline"
-        textDecorationColor="yellow.400"
+        textDecorationColor="#fef08a"
+        textDecorationThickness="16px"
+        textUnderlineOffset="-1px"
         w="fit-content"
         h="fit-content"
+        letterSpacing="-3px"
       >
         {title}
       </Text>

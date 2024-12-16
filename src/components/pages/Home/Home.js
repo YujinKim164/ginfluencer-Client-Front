@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Text, Heading, Flex, Button, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Heading,
+  Flex,
+  Button,
+  Image,
+  UnorderedList,
+  ListItem,
+} from "@chakra-ui/react";
 import Stats from "./../../atoms/Stats";
 import VIDEO from "./../../atoms/JTBCPlayer";
 import IMG1 from "../../../assets/images/homepage1.png";
@@ -91,7 +100,6 @@ const Home = ({ posts }) => {
             p={6}
             w={{ base: "52", md: "80" }}
             gap={1}
-            transition="all 0.3s"
           >
             <Text
               fontSize={{ base: "xs", md: "lg" }}
@@ -144,6 +152,93 @@ const Home = ({ posts }) => {
         </Box>
       </Box> */}
       {/* Community Section */}
+      <Box
+        display="flex"
+        flexDirection="column"
+        width="100%"
+        h={{ base: "26rem", md: "full" }}
+        mt={{ base: 14, md: 10 }}
+      >
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          width="auto"
+          h={{ base: "25rem", md: "35rem" }}
+          my={{ base: 0, md: 20 }}
+        >
+          <Box
+            flexBasis={{ base: "11%", md: "25%" }}
+            display="flex"
+            flexDirection="column"
+            m={{ base: 0, md: 4 }}
+            ml={{ base: 0, md: 12 }}
+          >
+            <Heading
+              fontSize={{ base: "xl", md: "5xl" }}
+              fontWeight="semibold"
+              p={{ base: 2, md: 0 }}
+            >
+              커뮤니티
+            </Heading>
+          </Box>
+
+          <Box
+            flex="1"
+            display="flex"
+            flexDirection="column"
+            m={{ base: 0, md: 4 }}
+            p={{ base: 0, md: 4 }}
+            width="100%"
+            height="100%"
+            borderTop="2px solid black"
+          >
+            <UnorderedList
+              display="flex"
+              flexDirection="column"
+              width="100%"
+              fontSize={{ base: "xs", md: "2xl" }}
+              lineHeight="loose"
+              listStyleType="none"
+              m={0}
+              p={0}
+            >
+              {/* {posts.map((post, i) => (
+                <ListItem key={i}>
+                  <Post idx={post.idx} type={post.type} title={post.title} />
+                </ListItem>
+              ))} */}
+            </UnorderedList>
+
+            <Flex py={4} justifyContent="start" mt={4}>
+              <Link as={Link} to="/community/notice" onClick={scrollTop}>
+                <Button
+                  border="2px solid"
+                  borderColor="gray.300"
+                  textColor="rgb(0, 0, 60)"
+                  bg="white"
+                  width={{ base: 12, md: 16 }}
+                  justifyContent="center"
+                  alignItems="center"
+                  _hover={{ bg: "rgb(0, 0, 60)", color: "white" }}
+                  borderRadius="full"
+                  py={6}
+                  w={{ base: "16", md: "32" }}
+                >
+                  <Flex alignItems="center" ml={5}>
+                    <Box
+                      fontSize={{ base: "xs", md: "lg" }}
+                      fontWeight={{ base: "medium", md: "semibold" }}
+                      lineHeight={{ base: "short", md: "tall" }}
+                    >
+                      더보기
+                    </Box>
+                    <ArrowRight boxSize={6} />
+                  </Flex>
+                </Button>
+              </Link>
+            </Flex>
+          </Box>
+        </Flex>
+      </Box>
     </Box>
   );
 };

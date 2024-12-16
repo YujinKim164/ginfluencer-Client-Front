@@ -8,22 +8,63 @@ import {
   Link,
   List,
   ListItem,
+  Image,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
+import logo from "../../../assets/images/header_logo.png";
 
-const Footer = () => {
+const Footer = ({ handleClick }) => {
+  const footerList = [
+    {
+      url: "/policy/terms",
+      content: "이용약관",
+      external: false,
+    },
+    {
+      url: "/policy/privacy",
+      content: "개인정보처리방침",
+      external: false,
+    },
+    {
+      url: "/policy/email",
+      content: "이메일무단수집거부",
+      external: false,
+    },
+    {
+      url: "/community/ask",
+      content: "1:1문의",
+      external: false,
+    },
+    {
+      url: "https://www.acrc.go.kr/",
+      content: "국민권익위원회",
+      external: true,
+    },
+    {
+      url: "https://www.nts.go.kr/",
+      content: "국세청",
+      external: true,
+    },
+    {
+      url: "https://www.mohw.go.kr/",
+      content: "주무관청",
+      external: true,
+    },
+  ];
+
   return (
     <Box
       bg="gray.50"
       fontSize="14px"
-      lineHeight="21px"
+      lineHeight="15px"
       letterSpacing="-0.025em"
-      paddingY={{ base: "21px", md: "10px" }}
+      paddingBottom={{ base: "21px", md: "15px" }}
       paddingLeft={{ base: "16px", md: "32px" }}
+      paddingRight={{ base: "16px", md: "32px" }}
       left="0"
       width="100%"
-      zIndex="10"
+      marginTop="auto"
     >
-      {/* Footer Top Section */}
       <Box
         paddingTop="50px"
         paddingBottom="50px"
@@ -36,126 +77,71 @@ const Footer = () => {
           flexDirection={{ base: "column", md: "row" }}
         >
           <HStack spacing="7px" wrap="wrap">
-            {/* Footer Links */}
             <Box>
               <List styleType="none" padding="0" margin="0">
-                <ListItem display="inline-block" marginRight="10px">
-                  <Link
-                    href="/policy/terms"
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="7px"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black" // 글자색을 검은색으로 변경
+                {footerList.map(({ url, content, external }) => (
+                  <ListItem
+                    display="inline-block"
+                    marginRight="10px"
+                    key={content}
                   >
-                    이용약관
-                  </Link>
-                </ListItem>
-                <ListItem display="inline-block" marginRight="10px">
-                  <Link
-                    href="/policy/privacy"
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="7px"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black"
-                  >
-                    개인정보처리방침
-                  </Link>
-                </ListItem>
-                <ListItem display="inline-block" marginRight="10px">
-                  <Link
-                    href="/policy/email"
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="7px"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black"
-                  >
-                    이메일무단수집거부
-                  </Link>
-                </ListItem>
-                <ListItem display="inline-block" marginRight="10px">
-                  <Link
-                    href="/community/ask"
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="7px"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black"
-                  >
-                    1:1문의
-                  </Link>
-                </ListItem>
-                <ListItem display="inline-block" marginRight="10px">
-                  <Link
-                    href="https://www.acrc.go.kr/"
-                    isExternal
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="7px"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black"
-                  >
-                    국민권익위원회
-                  </Link>
-                </ListItem>
-                <ListItem display="inline-block" marginRight="10px">
-                  <Link
-                    href="https://www.nts.go.kr/"
-                    isExternal
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="7px"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black"
-                  >
-                    국세청
-                  </Link>
-                </ListItem>
-                <ListItem display="inline-block" marginRight="0">
-                  <Link
-                    href="https://www.mohw.go.kr/"
-                    isExternal
-                    fontSize="17px"
-                    lineHeight="24px"
-                    letterSpacing="-0.025em"
-                    fontWeight="700"
-                    display="block"
-                    marginRight="0"
-                    _hover={{ textDecoration: "underline" }}
-                    color="black"
-                  >
-                    주무관청
-                  </Link>
-                </ListItem>
+                    {external ? (
+                      <Link
+                        href={url}
+                        isExternal
+                        fontSize="17px"
+                        lineHeight="24px"
+                        letterSpacing="-0.025em"
+                        fontWeight="700"
+                        display="block"
+                        marginRight="7px"
+                        _hover={{ textDecoration: "underline" }}
+                        color="black"
+                        onClick={handleClick}
+                      >
+                        {content}
+                      </Link>
+                    ) : (
+                      <Link
+                        href={url}
+                        fontSize="17px"
+                        lineHeight="24px"
+                        letterSpacing="-0.025em"
+                        fontWeight="700"
+                        display="block"
+                        marginRight="7px"
+                        _hover={{ textDecoration: "underline" }}
+                        color="black"
+                        onClick={handleClick}
+                      >
+                        {content}
+                      </Link>
+                    )}
+                  </ListItem>
+                ))}
               </List>
             </Box>
           </HStack>
+          <RouterLink to="/" display="flex" justifyContent="center" mt={4}>
+            <Image
+              width="8rem"
+              height="4rem"
+              src={logo}
+              alt="Footer Logo"
+              objectFit="cover"
+              cursor="pointer"
+            />
+          </RouterLink>
         </Flex>
       </Box>
 
-      {/* Footer Middle Section */}
       <Box marginBottom="8px">
-        <Flex direction={{ base: "column", sm: "row" }} spacing={6}>
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          spacing={6}
+          p
+          justifyContent="space-between"
+        >
           <VStack spacing={2} align="start">
             <Text fontWeight="semibold">후원계좌</Text>
             <Text color="gray.500">
@@ -180,7 +166,6 @@ const Footer = () => {
         </Flex>
       </Box>
 
-      {/* Footer Bottom Section */}
       <Box marginBottom="12px" />
     </Box>
   );
