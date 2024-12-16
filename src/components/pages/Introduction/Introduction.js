@@ -26,9 +26,12 @@ import img3 from "../../../assets/images/intro_img_3.png";
 import button1 from "../../../assets/images/intro_button_1.png";
 import button2 from "../../../assets/images/intro_button_2.png";
 import button3 from "../../../assets/images/intro_button_3.png";
+import AI from "../../../assets/images/intro_banner.png";
+import PNG from "../../../assets/images/intro_CI.png";
+import BANNER1 from "../../../assets/images/intro_banner_1.png";
 import Map from "./Map";
 
-const Introduction = ({ onDownload }) => {
+const Introduction = () => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const [currentTab, setCurrentTab] = useState("의장인사말");
 
@@ -52,8 +55,18 @@ const Introduction = ({ onDownload }) => {
       behavior: "smooth",
     });
   };
+
+  const onDownload = (fileUrl, fileName) => {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }}>
+    <Box p={{ base: 6, md: 12 }} mb={{ base: 8, md: 16 }}>
       <ApplyPageHeader IMG={banner} />
       <Box w="full" mb={12}>
         <Box
@@ -65,6 +78,7 @@ const Introduction = ({ onDownload }) => {
             fontSize={{ base: "2xl", md: "5xl" }}
             fontWeight="semibold"
             mb={4}
+            letterSpacing="-3px"
           >
             선한영향력가게
           </Text>
@@ -87,7 +101,7 @@ const Introduction = ({ onDownload }) => {
         </Box>
 
         <VStack spacing={16}>
-          <Box>
+          <Box mb={20}>
             {isMobile ? (
               <Select
                 onChange={handleSelectTab}
@@ -130,9 +144,9 @@ const Introduction = ({ onDownload }) => {
                 </TabList>
               </Tabs>
             )}
-          </Box>{" "}
-          <Box ml={{ base: 0, md: 10 }}>
-            <ScrollElement name="의장인사말">
+          </Box>
+          <Box ml={{ base: 0, md: 10 }} mb={30}>
+            <ScrollElement name="의장인사말" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
                 mb={20}
@@ -163,7 +177,7 @@ const Introduction = ({ onDownload }) => {
               </Grid>
             </ScrollElement>
 
-            <ScrollElement name="CI">
+            <ScrollElement name="CI" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
                 mb={20}
@@ -184,10 +198,8 @@ const Introduction = ({ onDownload }) => {
                     letterSpacing="-1px"
                   >
                     결식아동을 위한 선한영향력가게와 잘 어울리도록 아이의 즐거운
-                    표정을 형상화하여
-                    <br className="hidden md:inline" />
-                    아이들과 선한영향력가게에 참여하는 모든이들의 순수한 마음을
-                    상징
+                    표정을 형상화하여 아이들과 선한영향력가게에 참여하는
+                    모든이들의 순수한 마음을 상징
                   </Text>
 
                   <Flex direction="column" gap={4}>
@@ -210,13 +222,15 @@ const Introduction = ({ onDownload }) => {
                         name="AI 다운로드"
                         src={button1}
                         _hover={{ cursor: "pointer" }}
-                        onClick={onDownload}
+                        onClick={() => onDownload(AI, "선한영량력가게_AI.png")}
+                        alt="AI 다운로드"
                       />
                       <Image
                         name="png 다운로드"
                         src={button2}
                         _hover={{ cursor: "pointer" }}
-                        onClick={onDownload}
+                        onClick={() => onDownload(PNG, "선한영량력가게_CI.png")}
+                        alt="PNG 다운로드"
                       />
                     </Flex>
                   </Flex>
@@ -224,7 +238,7 @@ const Introduction = ({ onDownload }) => {
               </Grid>
             </ScrollElement>
 
-            <ScrollElement name="CI_2">
+            <ScrollElement name="CI_2" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
                 mb={20}
@@ -254,13 +268,16 @@ const Introduction = ({ onDownload }) => {
                       display="flex"
                       flexDirection="row"
                       gap={4}
-                      onClick={onDownload}
                       width={{ base: "28", md: "full" }}
                     >
                       <Image
                         name="배너 다운로드"
                         src={button3}
                         _hover={{ cursor: "pointer" }}
+                        onClick={() =>
+                          onDownload(BANNER1, "intro_banner_1.png")
+                        }
+                        alt="배너 다운로드"
                       />
                     </RouterLink>
                   </Flex>
@@ -268,7 +285,7 @@ const Introduction = ({ onDownload }) => {
               </Grid>
             </ScrollElement>
 
-            <ScrollElement name="연혁">
+            <ScrollElement name="연혁" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
                 mr={30}
@@ -413,7 +430,7 @@ const Introduction = ({ onDownload }) => {
               </Grid>
             </ScrollElement>
 
-            <ScrollElement name="찾아오시는 길">
+            <ScrollElement name="찾아오시는 길" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
                 gap={4}

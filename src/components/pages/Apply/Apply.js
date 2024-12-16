@@ -5,6 +5,7 @@ import card1 from "../../../assets/images/apply_img_1.png";
 import card2 from "../../../assets/images/apply_img_2.png";
 import DownLoadIcon from "../../atoms/DownLoadIcon";
 import ApplyPageHeader from "../../atoms/ApplyPageHeader";
+import pdf from "../../../assets/2024년도_결식아동 _급식_업무_표준매뉴얼.pdf";
 import {
   Box,
   Flex,
@@ -16,8 +17,17 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 
-const Apply = ({ onDownload }) => {
+const Apply = () => {
   const textSize = useBreakpointValue({ base: "sm", md: "lg" });
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = pdf;
+    link.download = "2024년도_결식아동_급식_업무_표준매뉴얼.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }}>
@@ -31,8 +41,9 @@ const Apply = ({ onDownload }) => {
           <Text
             fontSize={{ base: "2xl", md: "5xl" }}
             fontWeight="semibold"
-            mb={4}
-            letterSpacing="-2px"
+            mb={8}
+            letterSpacing="-3px"
+            lineHeight="1.2"
           >
             세상을 위한 좋은 변화를 위해
             <br /> 함께하실 분들은 신청해주세요!
@@ -41,7 +52,7 @@ const Apply = ({ onDownload }) => {
             fontSize={{ base: "sm", md: "md" }}
             fontWeight="semibold"
             lineHeight={{ base: "tall", md: "taller" }}
-            mb={4}
+            mb={8}
           >
             사단법인 선한영향력가게는 결식우려아동급식카드 소지 아동 대상과
             단체들에 <Box as="br" display={{ base: "none", md: "block" }} />
@@ -51,7 +62,7 @@ const Apply = ({ onDownload }) => {
           <Flex>
             <Link href="/apply/step1" _hover={{ textDecoration: "none" }}>
               <Button
-                colorScheme="yellow"
+                bg="yellow.300"
                 size="lg"
                 rightIcon={<ArrowRight size={10} strokeWidth={1.8} />}
                 rounded="full"
@@ -62,7 +73,13 @@ const Apply = ({ onDownload }) => {
           </Flex>
         </Box>
       </Box>
-      <Flex direction={{ base: "column", md: "row" }} gap={8}>
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        gap={8}
+        px={8}
+        py={16}
+        mb={20}
+      >
         <Box
           flex="1"
           p={8}
@@ -88,6 +105,7 @@ const Apply = ({ onDownload }) => {
           <Text fontSize={textSize} mb={16}>
             국가에서 지정하는 아동대상 불가 업종
           </Text>
+          <Box h={48} />
           <Image
             src={card1}
             alt="Card 1"
@@ -117,17 +135,17 @@ const Apply = ({ onDownload }) => {
             제외)
           </Text>
           <Button
-            onClick={onDownload}
             size="lg"
             rounded="full"
             border="2px solid"
             borderColor="black"
             bg="white"
-            _hover={{ bg: "gray.100" }}
             leftIcon={<DownLoadIcon />}
+            onClick={handleDownload}
           >
             표준메뉴얼 다운로드
           </Button>
+          <Box h={48} />
           <Image
             src={card2}
             alt="Card 2"
