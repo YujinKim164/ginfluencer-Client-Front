@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Text,
@@ -41,19 +41,25 @@ const Introduction = () => {
     { name: "연혁", href: "연혁" },
     { name: "찾아오시는 길", href: "찾아오시는 길" },
   ];
+  const tabRefs = useRef({});
 
   const handleSelectTab = (event) => {
-    setCurrentTab(event.target.value);
-    document.getElementsByName(event.target.value)[0].scrollIntoView({
+    const selectedTab = event.target.value;
+    setCurrentTab(selectedTab);
+    document.getElementsByName(selectedTab)[0].scrollIntoView({
       behavior: "smooth",
     });
   };
 
-  const handleTabClick = (name, href) => {
+  const handleTabClick = (name) => {
     setCurrentTab(name);
-    document.getElementsByName(href)[0].scrollIntoView({
-      behavior: "smooth",
-    });
+
+    if (tabRefs.current[name]) {
+      tabRefs.current[name].scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   const onDownload = (fileUrl, fileName) => {
@@ -100,13 +106,14 @@ const Introduction = () => {
           </Text>
         </Box>
 
-        <VStack spacing={16}>
+        <VStack spacing={16} textAlign="left">
           <Box mb={20}>
             {isMobile ? (
               <Select
                 onChange={handleSelectTab}
                 focusBorderColor="black"
                 size="lg"
+                width="auto"
               >
                 {tabs.map((tab) => (
                   <option key={tab.name} value={tab.name}>
@@ -115,37 +122,47 @@ const Introduction = () => {
                 ))}
               </Select>
             ) : (
-              <Tabs variant="unstyled" align="center">
+              <Tabs variant="unstyled" align="start">
                 <TabList borderBottom="2px solid #E2E8F0">
                   {tabs.map((tab) => (
                     <Flex key={tab.name}>
-                      <Tab
-                        fontWeight="bold"
-                        fontSize="xl"
-                        color={currentTab === tab.name ? "black" : "gray.500"}
-                        borderBottom={
-                          currentTab === tab.name
-                            ? "2px solid black"
-                            : "2px solid gray.400"
-                        }
-                        onClick={() => handleTabClick(tab.name, tab.href)}
-                        _hover={{
-                          color: "gray.700",
-                          borderBottom: "2px solid gray.600",
-                        }}
-                        _selected={{
-                          color: "black",
-                        }}
+                      <ScrollLink
+                        to={tab.href}
+                        smooth={true}
+                        offset={-50}
+                        onClick={() => handleTabClick(tab.name)}
                       >
-                        {tab.name}
-                      </Tab>
+                        <Tab
+                          fontWeight="bold"
+                          fontSize="xl"
+                          color={currentTab === tab.name ? "black" : "gray.500"}
+                          borderBottom={
+                            currentTab === tab.name
+                              ? "2px solid black"
+                              : "2px solid gray.400"
+                          }
+                          _hover={{
+                            color: "gray.700",
+                            borderBottom: "2px solid gray.600",
+                          }}
+                          _selected={{
+                            color: "black",
+                          }}
+                        >
+                          {tab.name}
+                        </Tab>
+                      </ScrollLink>
                     </Flex>
                   ))}
                 </TabList>
               </Tabs>
             )}
           </Box>
-          <Box ml={{ base: 0, md: 10 }} mb={30}>
+          <Box
+            ml={{ base: 0, md: 10 }}
+            mb={30}
+            ref={(el) => (tabRefs.current["의장인사말"] = el)}
+          >
             <ScrollElement name="의장인사말" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
@@ -176,7 +193,12 @@ const Introduction = () => {
                 </Text>
               </Grid>
             </ScrollElement>
-
+          </Box>
+          <Box
+            ml={{ base: 0, md: 10 }}
+            mb={30}
+            ref={(el) => (tabRefs.current["CI"] = el)}
+          >
             <ScrollElement name="CI" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
@@ -185,11 +207,7 @@ const Introduction = () => {
                 <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold">
                   CI
                 </Text>
-
-                <Box className="w-3/4 md:w-1/2 justify-center">
-                  <Image src={img2} alt="CI" mb={24} />
-                </Box>
-
+                <Image src={img2} alt="CI" mb={24} width="180px" />
                 <Box className="w-full" textAlign="left">
                   <Text
                     fontSize={{ base: "lg", md: "xl" }}
@@ -237,18 +255,13 @@ const Introduction = () => {
                 </Box>
               </Grid>
             </ScrollElement>
-
             <ScrollElement name="CI_2" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
                 mb={20}
               >
                 <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" />
-
-                <Box className="w-3/4 md:w-1/2 justify-center">
-                  <Image src={img3} alt="CI" />
-                </Box>
-
+                <Image src={img3} alt="CI" width="180px" />
                 <Box className="w-full" textAlign="left">
                   <Flex direction="column" gap={24}>
                     <Flex direction="column" gap={4} mb={6}>
@@ -284,24 +297,26 @@ const Introduction = () => {
                 </Box>
               </Grid>
             </ScrollElement>
-
-            <ScrollElement name="연혁" mb={12}>
-              <Grid
-                templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
-                mr={30}
-              >
+          </Box>
+          <Box
+            ml={{ base: 0, md: 10 }}
+            mb={30}
+            ref={(el) => (tabRefs.current["연혁"] = el)}
+          >
+            <ScrollElement name="연혁" mb={12} px={8}>
+              <Grid templateColumns={{ base: "1fr", md: "1fr 4fr" }}>
                 <Heading
                   as="h2"
-                  fontSize={["2xl", "3xl"]}
+                  fontSize={{ base: "2xl", md: "3xl" }}
                   fontWeight="bold"
                   textAlign="start"
-                  mr={4}
                   letterSpacing="-1.5px"
+                  ml={-36}
                 >
                   연혁
                 </Heading>
-                <Box borderTop="2px solid" borderColor="gray.200" py={16}>
-                  <VStack spacing={14} align="stretch">
+                <Box borderTop="2px solid" borderColor="gray.200" py={10}>
+                  <VStack align="stretch">
                     {[
                       {
                         year: "2024년",
@@ -377,45 +392,53 @@ const Introduction = () => {
                       },
                     ].map((event, index) => (
                       <Box key={index}>
-                        <Grid templateColumns="repeat(6, 1fr)" gap={4}>
-                          <Box colSpan={2} textAlign="left">
-                            <Text
-                              fontSize={["lg", "xl"]}
-                              fontWeight="bold"
-                              whiteSpace="nowrap"
-                            >
+                        <Flex
+                          direction={{ base: "column", md: "row" }}
+                          align="center"
+                          justify="space-between"
+                        >
+                          <Box
+                            flex="0 0 100px"
+                            textAlign="center"
+                            mr={8}
+                            whiteSpace="nowrap"
+                          >
+                            <Text fontSize="xl" fontWeight="bold">
                               {event.year}
                             </Text>
                           </Box>
-                          <Box colSpan={2} textAlign="left">
-                            <Text
-                              fontSize={["lg", "xl"]}
-                              fontWeight="bold"
-                              whiteSpace="nowrap"
-                            >
+                          <Box
+                            flex="0 0 100px"
+                            textAlign="center"
+                            mr={8}
+                            whiteSpace="nowrap"
+                          >
+                            <Text fontSize="xl" fontWeight="bold">
                               {event.month}
                             </Text>
                           </Box>
-                          <Box colSpan={6} md={4} mdStart={3}>
-                            <Text
-                              fontSize="l"
-                              fontWeight="bold"
-                              whiteSpace="nowrap"
-                            >
-                              {event.title}
-                              {event.description && (
-                                <Text
-                                  fontSize="md"
-                                  fontWeight="normal"
-                                  whiteSpace="nowrap"
-                                >
-                                  {event.description}
-                                </Text>
-                              )}
+                          <Box
+                            flex="1"
+                            whiteSpace="nowrap"
+                            textAlign={{ base: "center", md: "left" }}
+                          >
+                            <Text fontSize="xl" fontWeight="bold">
+                              {event.event}
                             </Text>
+                            {event.title && (
+                              <Text fontSize="md" fontWeight="bold">
+                                {event.title}
+                              </Text>
+                            )}
+                            {event.description && (
+                              <Text fontSize="md" fontWeight="normal" mt={2}>
+                                {event.description}
+                              </Text>
+                            )}
                           </Box>
-                        </Grid>
-                        {index < 9 && <Divider />}
+                        </Flex>
+
+                        {index < 30 && <Divider my={10} mx={10} />}
                       </Box>
                     ))}
                   </VStack>
@@ -429,7 +452,12 @@ const Introduction = () => {
                 </Box>
               </Grid>
             </ScrollElement>
-
+          </Box>
+          <Box
+            ml={{ base: 0, md: 10 }}
+            mb={30}
+            ref={(el) => (tabRefs.current["찾아오시는 길"] = el)}
+          >
             <ScrollElement name="찾아오시는 길" mb={12}>
               <Grid
                 templateColumns={{ base: "1fr", md: "3fr 3fr 6fr" }}
@@ -440,7 +468,7 @@ const Introduction = () => {
                   fontSize={["2xl", "3xl"]}
                   fontWeight="bold"
                   textAlign="start"
-                  mr={4}
+                  mr={40}
                   whiteSpace="nowrap"
                   letterSpacing="-1.5px"
                 >
