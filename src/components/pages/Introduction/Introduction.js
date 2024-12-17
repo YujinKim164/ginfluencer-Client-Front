@@ -362,6 +362,12 @@ const Introduction = () => {
                           "경기도소재 배달특급 앱 활용 지원 및 홍보 지원 비대면 결제 가능 및 배달비 지원",
                       },
                       {
+                        year: "",
+                        month: "",
+                        title: "KT와 업무 제휴",
+                        description: "선한영향력가게 앱 개발",
+                      },
+                      {
                         year: "2022년",
                         month: "7월",
                         title: "8개 지역협의회 지부장 선출",

@@ -34,7 +34,7 @@ const Modal = ({ show, onClose, children, content, onLink, id, onModal }) => {
           content={content}
           onLink={onLink}
           id={id}
-          onModal={onModal}
+          closeModal={onClose}
         />
       </Box>
     </Flex>

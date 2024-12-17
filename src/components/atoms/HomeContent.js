@@ -18,6 +18,7 @@ export default function HomeContent({
   onLink,
   id,
   onModal,
+  closeModal,
 }) {
   return (
     <>
@@ -42,7 +43,7 @@ export default function HomeContent({
           >
             {content.title}
           </Heading>
-          <Box onClick={onModal} cursor="pointer">
+          <Box onClick={closeModal} cursor="pointer">
             <Image src={xButton} alt="Close Button" />
           </Box>
         </Flex>
@@ -67,35 +68,18 @@ export default function HomeContent({
               ))}
             </Text>
 
-            <UnorderedList
-              spacing={3}
-              maxW="xl"
-              color="gray.600"
-              fontSize="sm"
-              mt={4}
-            >
-              {content.items.map((item, index) => (
-                <ListItem
-                  key={index}
-                  display="flex"
-                  gap={3}
-                  alignItems="center"
-                >
-                  <Text>
-                    <strong className="font-semibold text-gray-900">
-                      {item.subTitle}
-                    </strong>
-                    <br />
-                    {item.contents.map((contentItem, itemIndex) => (
-                      <Fragment key={itemIndex}>
-                        {contentItem}
-                        <br />
-                      </Fragment>
-                    ))}
+            {content.items.map((item, index) => (
+              <Box key={index} mb={6}>
+                <Text fontWeight="bold" color="gray.900" mb={3}>
+                  {item.subTitle}
+                </Text>
+                {item.contents.map((contentItem, itemIndex) => (
+                  <Text key={itemIndex} color="gray.700">
+                    {contentItem}
                   </Text>
-                </ListItem>
-              ))}
-            </UnorderedList>
+                ))}
+              </Box>
+            ))}
           </Box>
 
           <Flex justify="center" mt={10} cursor="pointer">

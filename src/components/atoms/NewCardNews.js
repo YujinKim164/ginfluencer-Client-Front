@@ -6,7 +6,6 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
 import Modal from "./Modal";
 import IMG1 from "../../assets/images/modal_img_1.png";
 import IMG2 from "../../assets/images/modal_img_2.png";
@@ -87,7 +86,12 @@ const content1 = [
   },
 ];
 
-export default function NewCardNews({ showModal, onModal, onLink }) {
+export default function NewCardNews({
+  showModal,
+  closeModal,
+  onModal,
+  onLink,
+}) {
   return (
     <Box bg="white" py={{ base: 4, md: 12 }}>
       <Box maxW="7xl" mx="auto" px={{ base: 6, lg: 8 }}>
@@ -102,8 +106,9 @@ export default function NewCardNews({ showModal, onModal, onLink }) {
             <Box key={post.id} data-id={idx}>
               <Modal
                 show={showModal[idx]}
+                onClose={closeModal}
                 content={content1[idx]}
-                onLink={onLink}
+                onLink={() => onLink(post.id)}
                 id={idx}
                 onModal={onModal}
               />
@@ -151,7 +156,7 @@ export default function NewCardNews({ showModal, onModal, onLink }) {
                     borderRadius="full"
                     size="sm"
                     _hover={{ bg: "gray.200" }}
-                    onClick={onModal}
+                    onClick={() => onModal(idx)}
                   />
                 </Box>
               </Box>
