@@ -21,9 +21,6 @@ const Step1 = ({
   checkBox1,
   checkBox2,
 }) => {
-  // Initialize checkboxesRef with useRef
-  const checkboxesRef = useRef([]);
-
   return (
     <>
       {/* section1 */}
@@ -99,7 +96,7 @@ const Step1 = ({
           <Flex
             h="auto"
             w="auto"
-            mt={4}
+            mt={12}
             mb={16}
             textAlign="center"
             justify="center"
@@ -119,32 +116,43 @@ const Step1 = ({
           </Flex>
 
           {/* 다음 단계 버튼 */}
-          <Link
-            onClick={nextTo}
-            _hover={{
-              bg: "teal.500",
-              color: "white",
-            }}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            bg="white"
-            border="2px solid"
-            borderColor="teal.500"
-            w={{ base: "48", md: "80" }}
-            h="16"
+          <Flex
+            h="auto"
+            w="auto"
+            mt={4}
+            mb={16}
+            textAlign="center"
+            justify="center"
+            align="center"
             gap={3}
-            mb={24}
-            _focus={{ outline: "none" }}
           >
-            <Text
-              fontSize={{ base: "base", md: "xl" }}
-              fontWeight="bold"
-              color="teal.500"
+            <Link
+              onClick={nextTo}
+              _hover={{
+                bg: "rgb(8, 47, 73)",
+                color: "white",
+              }}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              bg="white"
+              border="2px solid"
+              borderColor="rgb(8, 47, 73)"
+              w={{ base: "48", md: "80" }}
+              h="16"
+              gap={3}
+              mb={24}
+              _focus={{ outline: "none" }}
             >
-              다음 단계
-            </Text>
-          </Link>
+              <Text
+                fontSize={{ base: "base", md: "xl" }}
+                fontWeight="bold"
+                color="inherit"
+              >
+                다음 단계
+              </Text>
+            </Link>
+          </Flex>
         </form>
       </Box>
     </>

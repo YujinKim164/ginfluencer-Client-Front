@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Checkbox, Button, Alert, AlertIcon } from "@chakra-ui/react";
 import Step1 from "./Step1";
 
@@ -16,19 +16,21 @@ const Index = () => {
 
   const handleCheckBox = (e, box) => {
     const newCheckedItems = [...checkedItems];
-    newCheckedItems[box] = e.target.checked;
-    setCheckedItems(newCheckedItems);
 
     if (box === 0) {
-      setCheckedItems(newCheckedItems.map(() => e.target.checked));
+      // 전체 동의 체크박스
+      const isChecked = e.target.checked;
+      setCheckedItems(newCheckedItems.map(() => isChecked));
+    } else {
+      // 개별 체크박스
+      newCheckedItems[box] = e.target.checked;
+      setCheckedItems(newCheckedItems);
     }
   };
 
   const nextTo = () => {
     if (isAllChecked) {
-      // navigate("/apply/step2");
-      navigate("/apply/step3");
-
+      navigate("/apply/step2");
       window.scrollTo(0, 0);
     } else {
       setAlertVisible(true);
@@ -65,7 +67,6 @@ const Index = () => {
         <Checkbox
           isChecked={checkedItems[0]}
           onChange={(e) => handleCheckBox(e, 0)}
-          ref={(el) => (checkboxesRef.current[0] = el)}
         >
           전체 동의
         </Checkbox>
@@ -73,15 +74,12 @@ const Index = () => {
         <Checkbox
           isChecked={checkedItems[1]}
           onChange={(e) => handleCheckBox(e, 1)}
-          ref={(el) => (checkboxesRef.current[1] = el)}
         >
           항목 1 동의
         </Checkbox>
-
         <Checkbox
           isChecked={checkedItems[2]}
           onChange={(e) => handleCheckBox(e, 2)}
-          ref={(el) => (checkboxesRef.current[2] = el)}
         >
           항목 2 동의
         </Checkbox>

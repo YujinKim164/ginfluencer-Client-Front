@@ -17,6 +17,8 @@ import {
   Heading,
   Divider,
   Text,
+  Flex,
+  Link,
   FormErrorMessage,
 } from "@chakra-ui/react";
 import {
@@ -26,8 +28,11 @@ import {
   ProvideTarget2,
   SnsType,
 } from "../../../../constants/admin";
+import ApplyTitle from "./../../../atoms/ApplyTitle";
+import ApplyProgress from "./../../../atoms/ApplyProgress";
+import Postcode from "./Postcode";
 
-const Step2 = ({ fetchAllStores }) => {
+const Step2 = ({ fetchAllStores, nextTo }) => {
   const [level, setLevel] = useState(MembershipLevel.ASSOCIATE_MEMBER);
   const [businessNumber, setBusinessNumber] = useState("");
   const [enrollDate, setEnrollDate] = useState("");
@@ -41,6 +46,7 @@ const Step2 = ({ fetchAllStores }) => {
   const [businessTypeMiddle, setBusinessTypeMiddle] = useState("");
   const [storePhoneNumber, setStorePhoneNumber] = useState("");
   const [seeAvailable, setSeeAvailable] = useState(true);
+  const [storePostcode, setStorePostcode] = useState("");
   const [storeAddress, setStoreAddress] = useState("");
   const [storeDetailAddress, setStoreDetailAddress] = useState("");
   const [openTime, setOpenTime] = useState("");
@@ -286,522 +292,603 @@ const Step2 = ({ fetchAllStores }) => {
   //   }
   // }, [businessTypeBig]);
   return (
-    <Box p={5} width="100%" mx="auto" height="70vh" overflow="auto">
-      <form onSubmit={handleSubmit}>
-        <VStack spacing={6} align="stretch">
-          <Heading size="lg">기본정보</Heading>
-          <Divider borderColor="gray.900" borderWidth="1px" />
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">회원구분</FormLabel>
-            <RadioGroup value={level} onChange={setLevel}>
-              <HStack spacing={4}>
-                <Radio value={MembershipLevel.REGULAR_MEMBER}>정회원</Radio>
-                <Radio value={MembershipLevel.ASSOCIATE_MEMBER}>준회원</Radio>
-              </HStack>
-            </RadioGroup>
-            <Text fontSize="sm" color="gray.500" mt={2}>
-              ※ 정회원은 협회 활동에 대한 참여 및 의결권을 가지고 협회사 대상
-              지원 사업 우선권이 있으며, 매년 연회비(120,000원/매월1만원
-              정기납부 결제가능) 납입의무가 있습니다.
-              <br />※ 준회원은 협회 활동에 대한 의결권 및 연회비 납입의무가
-              없습니다.
-            </Text>
-          </FormControl>
-          <FormControl isRequired isInvalid={errors.businessNumber}>
-            <FormLabel fontSize="18px">사업자 등록번호</FormLabel>
-            <Input
-              type="text"
-              value={businessNumber}
-              onChange={(e) => setBusinessNumber(e.target.value)}
-              placeholder="사업자 번호"
-            />
-            <FormErrorMessage>{errors.businessNumber}</FormErrorMessage>
-          </FormControl>
-          <FormControl isRequired isInvalid={errors.enrollDate}>
-            <Input
-              type="date"
-              value={enrollDate}
-              onChange={(e) => setEnrollDate(e.target.value)}
-              placeholder="가입 연월일"
-            />
-            <FormErrorMessage>{errors.enrollDate}</FormErrorMessage>
-          </FormControl>
-          <FormControl isRequired isInvalid={errors.ceoName}>
-            <Input
-              type="text"
-              value={ceoName}
-              onChange={(e) => setCeoName(e.target.value)}
-              placeholder="대표자 성명"
-            />
-            <FormErrorMessage>{errors.ceoName}</FormErrorMessage>
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">이름</FormLabel>
-            <Input
-              type="text"
-              value={ceoName}
-              onChange={(e) => setCeoName(e.target.value)}
-              placeholder="이름을 입력하세요."
-            />
-            <FormErrorMessage>{errors.ceoName}</FormErrorMessage>
-          </FormControl>
+    <>
+      <Box id="section1" mb={{ base: 4, md: 0 }}>
+        <ApplyTitle title={"선한영향력가게 회원 신청"} />
+      </Box>
+      <Box
+        id="section2"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        mx={{ base: 4, md: 0 }}
+        overflowY="auto"
+      >
+        <ApplyProgress title={"기본정보"} step={2} />
 
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">이메일</FormLabel>
-            <Input
-              type="email"
-              value={storeEmail}
-              onChange={(e) => setStoreEmail(e.target.value)}
-              placeholder="이메일을 입력해주세요."
-            />
-            <FormErrorMessage>{errors.storeEmail}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">휴대폰</FormLabel>
-            <Input
-              type="text"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="'-'을 포함해 입력해주세요"
-            />
-            <FormErrorMessage>{errors.phoneNumber}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">비밀번호</FormLabel>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="비밀번호를 입력하세요."
-            />
-            <Text fontSize="sm" color="gray.500">
-              ※ 영문 대소문자/숫자/특수문자 조합, 10자-16자
-            </Text>
-            <FormErrorMessage>{errors.password}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">비밀번호 확인</FormLabel>
-            <Input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="비밀번호를 다시 입력해주세요."
-            />
-            <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
-          </FormControl>
-
-          <Heading size="lg" mt={8}>
-            가게정보
-          </Heading>
-          <Divider borderColor="gray.900" borderWidth="1px" />
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">상호명</FormLabel>
-            <Input
-              type="text"
-              value={storeTitle}
-              onChange={(e) => setStoreTitle(e.target.value)}
-              placeholder="상호명을 입력하세요."
-            />
-            <FormErrorMessage>{errors.storeTitle}</FormErrorMessage>
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">업종</FormLabel>
-            {/* 대분류 (Category) 선택 */}
-            <Select
-              id="business-type-big"
-              placeholder="대분류"
-              value={businessTypeBig || ""} // key 값 사용
-              onChange={(e) => {
-                const selectedKey = e.target.value;
-                setBusinessTypeBig(selectedKey); // `key` 값만 저장
-                setBusinessTypeMiddle(""); // 대분류 변경 시 중분류 초기화
-              }}
-            >
-              {Object.keys(Category).map((key) => (
-                <option key={key} value={key}>
-                  {Category[key].description}
-                </option>
-              ))}
-            </Select>
-
-            {/* 중분류 (SubCategory) 선택 */}
-            <Select
-              id="business-type-middle"
-              placeholder="중분류"
-              value={businessTypeMiddle}
-              onChange={(e) => setBusinessTypeMiddle(e.target.value)} // key 값만 설정
-              isDisabled={!businessTypeBig} // 대분류 선택이 없을 시 비활성화
-            >
-              {middleOptions.map((subCategory) => (
-                <option key={subCategory.value} value={subCategory.value}>
-                  {subCategory.label}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">매장번호</FormLabel>
-            <VStack spacing={4} align="flex-start">
-              <RadioGroup
-                value={seeAvailable ? "true" : "false"}
-                onChange={(value) => setSeeAvailable(value === "true")}
-              >
-                <HStack>
-                  <Radio value="true">공개</Radio>
-                  <Radio value="false">비공개</Radio>
+        <form onSubmit={handleSubmit}>
+          <VStack
+            spacing={6}
+            width={{ base: "100%", md: "90%" }}
+            mx="auto"
+            padding={4}
+          >
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">회원구분</FormLabel>
+              <RadioGroup value={level} onChange={setLevel}>
+                <HStack spacing={4}>
+                  <Radio value={MembershipLevel.REGULAR_MEMBER}>정회원</Radio>
+                  <Radio value={MembershipLevel.ASSOCIATE_MEMBER}>준회원</Radio>
                 </HStack>
               </RadioGroup>
+              <Text fontSize="sm" color="gray.500" mt={2}>
+                ※ 정회원은 협회 활동에 대한 참여 및 의결권을 가지고 협회사 대상
+                지원 사업 우선권이 있으며, 매년 연회비(120,000원/매월1만원
+                정기납부 결제가능) 납입의무가 있습니다.
+                <br />※ 준회원은 협회 활동에 대한 의결권 및 연회비 납입의무가
+                없습니다.
+              </Text>
+            </FormControl>
+            <FormControl isRequired isInvalid={errors.businessNumber}>
+              <FormLabel fontSize="18px">사업자 등록번호</FormLabel>
               <Input
                 type="text"
-                placeholder="'-'을 포함해 번호를 입력해주세요."
-                value={storePhoneNumber}
-                onChange={(e) => setStorePhoneNumber(e.target.value)}
+                value={businessNumber}
+                onChange={(e) => setBusinessNumber(e.target.value)}
+                placeholder="사업자 번호"
               />
-            </VStack>
-          </FormControl>
-
-          <FormControl isRequired>
-            <FormLabel fontSize="18px">주소</FormLabel>
-            <VStack>
+              <FormErrorMessage>{errors.businessNumber}</FormErrorMessage>
+            </FormControl>
+            <FormControl isRequired isInvalid={errors.enrollDate}>
               <Input
-                id="postcode"
+                type="date"
+                value={enrollDate}
+                onChange={(e) => setEnrollDate(e.target.value)}
+                placeholder="가입 연월일"
+              />
+              <FormErrorMessage>{errors.enrollDate}</FormErrorMessage>
+            </FormControl>
+            <FormControl isRequired isInvalid={errors.ceoName}>
+              <Input
                 type="text"
-                value={storeAddress}
-                onChange={(e) => setStoreAddress(e.target.value)}
-                placeholder="우편번호"
+                value={ceoName}
+                onChange={(e) => setCeoName(e.target.value)}
+                placeholder="대표자 성명"
               />
+              <FormErrorMessage>{errors.ceoName}</FormErrorMessage>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">이름</FormLabel>
               <Input
-                id="detail-address"
                 type="text"
-                value={storeDetailAddress}
-                onChange={(e) => setStoreDetailAddress(e.target.value)}
-                placeholder="상세 주소 (선택)"
+                value={ceoName}
+                onChange={(e) => setCeoName(e.target.value)}
+                placeholder="이름을 입력하세요."
               />
-            </VStack>
-          </FormControl>
-          <Heading size="lg" mt={8}>
-            추가 정보
-          </Heading>
-          <Divider borderColor="gray.900" borderWidth="1px" />
-          <FormControl>
-            <FormLabel fontSize="18px">영업시간</FormLabel>
-            <HStack>
-              <Input
-                id="open-time"
-                type="time"
-                value={openTime}
-                onChange={(e) => setOpenTime(e.target.value)}
-              />
-              <Text>-</Text>
-              <Input
-                id="close-time"
-                type="time"
-                value={closeTime}
-                onChange={(e) => setCloseTime(e.target.value)}
-              />
-            </HStack>
-          </FormControl>
+              <FormErrorMessage>{errors.ceoName}</FormErrorMessage>
+            </FormControl>
 
-          <FormControl>
-            <FormLabel fontSize="18px">브레이크 타임</FormLabel>
-            <HStack>
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">이메일</FormLabel>
               <Input
-                id="open-break-time"
-                type="time"
-                value={openBreakTime}
-                onChange={(e) => setOpenBreakTime(e.target.value)}
+                type="email"
+                value={storeEmail}
+                onChange={(e) => setStoreEmail(e.target.value)}
+                placeholder="이메일을 입력해주세요."
               />
-              <Text>-</Text>
-              <Input
-                id="close-break-time"
-                type="time"
-                value={closeBreakTime}
-                onChange={(e) => setCloseBreakTime(e.target.value)}
-              />
-            </HStack>
-          </FormControl>
+              <FormErrorMessage>{errors.storeEmail}</FormErrorMessage>
+            </FormControl>
 
-          <FormControl>
-            <FormLabel fontSize="18px">휴무일</FormLabel>
-            <HStack spacing={4}>
-              {[
-                { holiDays: "Monday", label: "월" },
-                { holiDays: "Tuesday", label: "화" },
-                { holiDays: "Wednesday", label: "수" },
-                { holiDays: "Thursday", label: "목" },
-                { holiDays: "Friday", label: "금" },
-                { holiDays: "Saturday", label: "토" },
-                { holiDays: "Sunday", label: "일" },
-                { holiDays: "National Holiday", label: "공휴일" },
-                { holiDays: "Anytime", label: "상시 변경" },
-              ].map(({ holiDays, label }) => (
-                <Checkbox
-                  key={holiDays}
-                  id={`checkbox-${holiDays}`}
-                  value={holiDays}
-                  onChange={(e) =>
-                    setHoliDays((prev) =>
-                      e.target.checked
-                        ? [...prev, holiDays]
-                        : prev.filter((item) => item !== holiDays)
-                    )
-                  }
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">휴대폰</FormLabel>
+              <Input
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="'-'을 포함해 입력해주세요"
+              />
+              <FormErrorMessage>{errors.phoneNumber}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">비밀번호</FormLabel>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="비밀번호를 입력하세요."
+              />
+              <Text fontSize="sm" color="gray.500">
+                ※ 영문 대소문자/숫자/특수문자 조합, 10자-16자
+              </Text>
+              <FormErrorMessage>{errors.password}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">비밀번호 확인</FormLabel>
+              <Input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="비밀번호를 다시 입력해주세요."
+              />
+              <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
+            </FormControl>
+            <Text
+              fontSize={{ base: "lg", md: "2xl" }}
+              fontWeight="bold"
+              letterSpacing="-1px"
+              textAlign="left"
+            >
+              가게정보
+            </Text>
+            <Divider borderColor="gray.900" borderWidth="1px" />
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">상호명</FormLabel>
+              <Input
+                type="text"
+                value={storeTitle}
+                onChange={(e) => setStoreTitle(e.target.value)}
+                placeholder="상호명을 입력하세요."
+              />
+              <FormErrorMessage>{errors.storeTitle}</FormErrorMessage>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">업종</FormLabel>
+              {/* 대분류 (Category) 선택 */}
+              <Select
+                id="business-type-big"
+                placeholder="대분류"
+                value={businessTypeBig || ""} // key 값 사용
+                onChange={(e) => {
+                  const selectedKey = e.target.value;
+                  setBusinessTypeBig(selectedKey); // `key` 값만 저장
+                  setBusinessTypeMiddle(""); // 대분류 변경 시 중분류 초기화
+                }}
+              >
+                {Object.keys(Category).map((key) => (
+                  <option key={key} value={key}>
+                    {Category[key].description}
+                  </option>
+                ))}
+              </Select>
+
+              {/* 중분류 (SubCategory) 선택 */}
+              <Select
+                id="business-type-middle"
+                placeholder="중분류"
+                value={businessTypeMiddle}
+                onChange={(e) => setBusinessTypeMiddle(e.target.value)} // key 값만 설정
+                isDisabled={!businessTypeBig} // 대분류 선택이 없을 시 비활성화
+              >
+                {middleOptions.map((subCategory) => (
+                  <option key={subCategory.value} value={subCategory.value}>
+                    {subCategory.label}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">매장번호</FormLabel>
+              <VStack spacing={4} align="flex-start">
+                <RadioGroup
+                  value={seeAvailable ? "true" : "false"}
+                  onChange={(value) => setSeeAvailable(value === "true")}
                 >
-                  {label}
-                </Checkbox>
-              ))}
-            </HStack>
-          </FormControl>
-          <FormLabel fontSize="18px">제공 품목</FormLabel>
-          {provideItems.map((item, index) => (
-            <Box key={index} p={4} borderWidth="1px" borderRadius="18px" mb={4}>
-              <FormControl>
+                  <HStack>
+                    <Radio value="true">공개</Radio>
+                    <Radio value="false">비공개</Radio>
+                  </HStack>
+                </RadioGroup>
                 <Input
                   type="text"
-                  value={item.name}
-                  onChange={(e) =>
-                    handleProvideItemChange(index, "name", e.target.value)
-                  }
-                  placeholder="품목 이름"
+                  placeholder="'-'을 포함해 번호를 입력해주세요."
+                  value={storePhoneNumber}
+                  onChange={(e) => setStorePhoneNumber(e.target.value)}
                 />
-              </FormControl>
-              <FormControl>
+              </VStack>
+            </FormControl>
+
+            <FormControl isRequired>
+              <FormLabel fontSize="18px">주소</FormLabel>
+              <VStack>
+                <HStack>
+                  <Input
+                    id="postcode"
+                    type="text"
+                    value={storePostcode}
+                    onChange={(e) => setStoreAddress(e.target.value)}
+                    placeholder="우편번호"
+                  />
+                  <Postcode
+                    setStorePostcode={setStorePostcode}
+                    setStoreAddress={setStoreAddress}
+                  />
+                </HStack>
                 <Input
-                  type="number"
-                  value={item.existingPrice}
-                  onChange={(e) =>
-                    handleProvideItemChange(
-                      index,
-                      "existingPrice",
-                      e.target.value
-                    )
-                  }
-                  placeholder="기존 가격"
+                  id="basic-address"
+                  type="text"
+                  value={storeAddress}
+                  onChange={(e) => setStoreDetailAddress(e.target.value)}
+                  placeholder="기본주소"
                 />
-              </FormControl>
-              <FormControl>
                 <Input
-                  type="number"
-                  value={item.providePrice}
-                  onChange={(e) =>
-                    handleProvideItemChange(
-                      index,
-                      "providePrice",
-                      e.target.value
-                    )
-                  }
-                  placeholder="제공 가격"
+                  id="detail-address"
+                  type="text"
+                  value={storeDetailAddress}
+                  onChange={(e) => setStoreDetailAddress(e.target.value)}
+                  placeholder="상세 주소 (선택)"
                 />
-              </FormControl>
-              <FormControl display="flex" alignItems="center">
-                <FormLabel htmlFor={`freeProvide${index}`} mb={0}>
-                  무료 제공 여부
-                </FormLabel>
-                <Checkbox
-                  id={`freeProvide${index}`}
-                  isChecked={item.freeProvide}
-                  onChange={(e) =>
-                    handleProvideItemChange(
-                      index,
-                      "freeProvide",
-                      e.target.checked
-                    )
-                  }
-                />
-              </FormControl>
-              {/* TODO: 제공품목 유효성 검사 코드 부분 위로 올리기 */}
-              {errors[`provideItem${index}`] && (
-                <Text color="red.500">{errors[`provideItem${index}`]}</Text>
-              )}
-            </Box>
-          ))}
-          <FormControl>
-            <FormLabel fontSize="18px">제공대상1</FormLabel>
-            <RadioGroup
-              value={provideTarget1}
-              onChange={(value) => setProvideTarget1(value)}
+              </VStack>
+            </FormControl>
+            <Text
+              fontSize={{ base: "lg", md: "2xl" }}
+              fontWeight="bold"
+              letterSpacing="-1px"
+              textAlign="left"
             >
+              추가정보
+            </Text>
+            <Divider borderColor="gray.900" borderWidth="1px" />
+            <FormControl>
+              <FormLabel fontSize="18px">영업시간</FormLabel>
               <HStack>
-                <Radio value={ProvideTarget1.CHILD_ONLY}>아이 본인만</Radio>
-                <Radio value={ProvideTarget1.WITH_ONE}>동반 1인</Radio>
-                <Radio value={ProvideTarget1.WITH_TWO}>동반 2인</Radio>
-                <Radio value={ProvideTarget1.OTHER}>기타</Radio>
-                {/* 기타 선택할 경우 사용자 입력할 수 있도록 Input 활성화 시키기 */}
+                <Input
+                  id="open-time"
+                  type="time"
+                  value={openTime}
+                  onChange={(e) => setOpenTime(e.target.value)}
+                />
+                <Text>-</Text>
+                <Input
+                  id="close-time"
+                  type="time"
+                  value={closeTime}
+                  onChange={(e) => setCloseTime(e.target.value)}
+                />
               </HStack>
-            </RadioGroup>
-          </FormControl>
-          <FormControl>
-            <FormLabel fontSize="18px">제공대상2</FormLabel>
-            <HStack spacing={4}>
-              {[
-                {
-                  provideTarget2: ProvideTarget2.UNDERPRIVILEGED_CHILD,
-                  label: "결식아동",
-                },
-                { provideTarget2: ProvideTarget2.FIREFIGHTER, label: "소방관" },
-                { provideTarget2: ProvideTarget2.OTHER, label: "기타" },
-              ].map(({ provideTarget2, label }) => (
-                <Checkbox
-                  key={provideTarget2}
-                  id={`checkbox-${provideTarget2}`}
-                  value={provideTarget2}
-                  onChange={(e) =>
-                    setProvideTarget2((prev) =>
-                      e.target.checked
-                        ? [...prev, provideTarget2]
-                        : prev.filter((item) => item !== provideTarget2)
-                    )
-                  }
+            </FormControl>
+
+            <FormControl>
+              <FormLabel fontSize="18px">브레이크 타임</FormLabel>
+              <HStack>
+                <Input
+                  id="open-break-time"
+                  type="time"
+                  value={openBreakTime}
+                  onChange={(e) => setOpenBreakTime(e.target.value)}
+                />
+                <Text>-</Text>
+                <Input
+                  id="close-break-time"
+                  type="time"
+                  value={closeBreakTime}
+                  onChange={(e) => setCloseBreakTime(e.target.value)}
+                />
+              </HStack>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel fontSize="18px">휴무일</FormLabel>
+              <HStack spacing={4}>
+                {[
+                  { holiDays: "Monday", label: "월" },
+                  { holiDays: "Tuesday", label: "화" },
+                  { holiDays: "Wednesday", label: "수" },
+                  { holiDays: "Thursday", label: "목" },
+                  { holiDays: "Friday", label: "금" },
+                  { holiDays: "Saturday", label: "토" },
+                  { holiDays: "Sunday", label: "일" },
+                  { holiDays: "National Holiday", label: "공휴일" },
+                  { holiDays: "Anytime", label: "상시 변경" },
+                ].map(({ holiDays, label }) => (
+                  <Checkbox
+                    key={holiDays}
+                    id={`checkbox-${holiDays}`}
+                    value={holiDays}
+                    onChange={(e) =>
+                      setHoliDays((prev) =>
+                        e.target.checked
+                          ? [...prev, holiDays]
+                          : prev.filter((item) => item !== holiDays)
+                      )
+                    }
+                  >
+                    {label}
+                  </Checkbox>
+                ))}
+              </HStack>
+            </FormControl>
+            <FormLabel fontSize="18px">제공 품목</FormLabel>
+            {provideItems.map((item, index) => (
+              <Box
+                key={index}
+                p={4}
+                borderWidth="1px"
+                borderRadius="18px"
+                mb={4}
+              >
+                <FormControl>
+                  <Input
+                    type="text"
+                    value={item.name}
+                    onChange={(e) =>
+                      handleProvideItemChange(index, "name", e.target.value)
+                    }
+                    placeholder="품목 이름"
+                  />
+                </FormControl>
+                <FormControl>
+                  <Input
+                    type="number"
+                    value={item.existingPrice}
+                    onChange={(e) =>
+                      handleProvideItemChange(
+                        index,
+                        "existingPrice",
+                        e.target.value
+                      )
+                    }
+                    placeholder="기존 가격"
+                  />
+                </FormControl>
+                <FormControl>
+                  <Input
+                    type="number"
+                    value={item.providePrice}
+                    onChange={(e) =>
+                      handleProvideItemChange(
+                        index,
+                        "providePrice",
+                        e.target.value
+                      )
+                    }
+                    placeholder="제공 가격"
+                  />
+                </FormControl>
+                <FormControl display="flex" alignItems="center">
+                  <FormLabel htmlFor={`freeProvide${index}`} mb={0}>
+                    무료 제공 여부
+                  </FormLabel>
+                  <Checkbox
+                    id={`freeProvide${index}`}
+                    isChecked={item.freeProvide}
+                    onChange={(e) =>
+                      handleProvideItemChange(
+                        index,
+                        "freeProvide",
+                        e.target.checked
+                      )
+                    }
+                  />
+                </FormControl>
+                {/* TODO: 제공품목 유효성 검사 코드 부분 위로 올리기 */}
+                {errors[`provideItem${index}`] && (
+                  <Text color="red.500">{errors[`provideItem${index}`]}</Text>
+                )}
+              </Box>
+            ))}
+            <FormControl>
+              <FormLabel fontSize="18px">제공대상1</FormLabel>
+              <RadioGroup
+                value={provideTarget1}
+                onChange={(value) => setProvideTarget1(value)}
+              >
+                <HStack>
+                  <Radio value={ProvideTarget1.CHILD_ONLY}>아이 본인만</Radio>
+                  <Radio value={ProvideTarget1.WITH_ONE}>동반 1인</Radio>
+                  <Radio value={ProvideTarget1.WITH_TWO}>동반 2인</Radio>
+                  <Radio value={ProvideTarget1.OTHER}>기타</Radio>
+                </HStack>
+              </RadioGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel fontSize="18px">제공대상2</FormLabel>
+              <HStack spacing={4}>
+                {[
+                  {
+                    provideTarget2: ProvideTarget2.UNDERPRIVILEGED_CHILD,
+                    label: "결식아동",
+                  },
+                  {
+                    provideTarget2: ProvideTarget2.FIREFIGHTER,
+                    label: "소방관",
+                  },
+                  { provideTarget2: ProvideTarget2.OTHER, label: "기타" },
+                ].map(({ provideTarget2, label }) => (
+                  <Checkbox
+                    key={provideTarget2}
+                    id={`checkbox-${provideTarget2}`}
+                    value={provideTarget2}
+                    onChange={(e) =>
+                      setProvideTarget2((prev) =>
+                        e.target.checked
+                          ? [...prev, provideTarget2]
+                          : prev.filter((item) => item !== provideTarget2)
+                      )
+                    }
+                  >
+                    {label}
+                  </Checkbox>
+                ))}
+              </HStack>
+            </FormControl>
+            <FormControl>
+              <FormLabel fontSize="18px">가게 SNS</FormLabel>
+              <HStack>
+                <Select
+                  id="sns-type-1"
+                  placeholder="SNS"
+                  value={snsType1}
+                  onChange={(e) => setSnsType1(e.target.value)}
                 >
-                  {label}
-                </Checkbox>
-              ))}
-            </HStack>
-          </FormControl>
-          <FormControl>
-            <FormLabel fontSize="18px">가게 SNS</FormLabel>
-            <HStack>
-              <Select
-                id="sns-type-1"
-                placeholder="SNS"
-                value={snsType1}
-                onChange={(e) => setSnsType1(e.target.value)}
-              >
-                {Object.keys(SnsType).map((key) => (
-                  <option key={key} value={key}>
-                    {SnsType[key]}
-                  </option>
-                ))}
-              </Select>
-              <Input
-                id="sns-url-1"
-                type="text"
-                value={snsType1Url}
-                onChange={(e) => setSnsType1Url(e.target.value)}
-                placeholder="가게 SNS URL을 입력하세요."
-              />
-            </HStack>
-            <HStack>
-              <Select
-                id="sns-type-2"
-                placeholder="SNS"
-                value={snsType2}
-                onChange={(e) => setSnsType2(e.target.value)}
-              >
-                {Object.keys(SnsType).map((key) => (
-                  <option key={key} value={key}>
-                    {SnsType[key]}
-                  </option>
-                ))}
-              </Select>
-              <Input
-                id="sns-url-2"
-                type="text"
-                value={snsType2Url}
-                onChange={(e) => setSnsType2Url(e.target.value)}
-                placeholder="가게 SNS URL을 입력하세요."
-              />
-            </HStack>
-          </FormControl>
-          <FormControl>
-            <FormLabel fontSize="18px">사진첨부</FormLabel>
-            <VStack spacing={4} align="start">
-              <HStack>
-                <FormLabel>상호명(CI)</FormLabel>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      setStoreImgCI(URL.createObjectURL(file));
-                    }
-                  }}
+                  {Object.keys(SnsType).map((key) => (
+                    <option key={key} value={key}>
+                      {SnsType[key]}
+                    </option>
+                  ))}
+                </Select>
+                <Input
+                  id="sns-url-1"
+                  type="text"
+                  value={snsType1Url}
+                  onChange={(e) => setSnsType1Url(e.target.value)}
+                  placeholder="가게 SNS URL을 입력하세요."
                 />
               </HStack>
               <HStack>
-                <FormLabel>가게전면</FormLabel>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      setStoreImgFront(URL.createObjectURL(file));
-                    }
-                  }}
+                <Select
+                  id="sns-type-2"
+                  placeholder="SNS"
+                  value={snsType2}
+                  onChange={(e) => setSnsType2(e.target.value)}
+                >
+                  {Object.keys(SnsType).map((key) => (
+                    <option key={key} value={key}>
+                      {SnsType[key]}
+                    </option>
+                  ))}
+                </Select>
+                <Input
+                  id="sns-url-2"
+                  type="text"
+                  value={snsType2Url}
+                  onChange={(e) => setSnsType2Url(e.target.value)}
+                  placeholder="가게 SNS URL을 입력하세요."
                 />
               </HStack>
-              <HStack>
-                <FormLabel>가게내부</FormLabel>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      setStoreImgInside(URL.createObjectURL(file));
-                    }
-                  }}
-                />
-              </HStack>
-              <HStack>
-                <FormLabel>메뉴판</FormLabel>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      setStoreImgMenupan(URL.createObjectURL(file));
-                    }
-                  }}
-                />
-              </HStack>
-              <HStack>
-                <FormLabel>대표메뉴</FormLabel>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      setStoreImgMenu(URL.createObjectURL(file));
-                    }
-                  }}
-                />
-              </HStack>
-              <Text fontSize="sm" color="gray.500" mt={2}>
-                * 5MB 이하의 jpg, jpeg, gif, png 이미지만 업로드 가능
-              </Text>
-            </VStack>
-          </FormControl>
+            </FormControl>
+            <FormControl>
+              <FormLabel fontSize="18px">사진첨부</FormLabel>
+              <VStack spacing={4} align="start">
+                <HStack>
+                  <FormLabel>상호명(CI)</FormLabel>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setStoreImgCI(URL.createObjectURL(file));
+                      }
+                    }}
+                  />
+                </HStack>
+                <HStack>
+                  <FormLabel>가게전면</FormLabel>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setStoreImgFront(URL.createObjectURL(file));
+                      }
+                    }}
+                  />
+                </HStack>
+                <HStack>
+                  <FormLabel>가게내부</FormLabel>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setStoreImgInside(URL.createObjectURL(file));
+                      }
+                    }}
+                  />
+                </HStack>
+                <HStack>
+                  <FormLabel>메뉴판</FormLabel>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setStoreImgMenupan(URL.createObjectURL(file));
+                      }
+                    }}
+                  />
+                </HStack>
+                <HStack>
+                  <FormLabel>대표메뉴</FormLabel>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        setStoreImgMenu(URL.createObjectURL(file));
+                      }
+                    }}
+                  />
+                </HStack>
+                <Text fontSize="sm" color="gray.500" mt={2}>
+                  * 5MB 이하의 jpg, jpeg, gif, png 이미지만 업로드 가능
+                </Text>
+              </VStack>
+            </FormControl>
 
-          {/* 추가된 파라미터들 */}
-          <FormControl>
-            <FormLabel fontSize="18px">스티커 발송 여부</FormLabel>
-            <Switch
-              isChecked={stickerSend}
-              onChange={(e) => setStickerSend(e.target.checked)}
-            />
-          </FormControl>
+            {/* 추가된 파라미터들 */}
+            <FormControl>
+              <FormLabel fontSize="18px">스티커 발송 여부</FormLabel>
+              <Switch
+                isChecked={stickerSend}
+                onChange={(e) => setStickerSend(e.target.checked)}
+              />
+            </FormControl>
 
-          <FormControl>
-            <FormLabel fontSize="18px">키트 발송 여부</FormLabel>
-            <Switch
-              isChecked={kitSend}
-              onChange={(e) => setKitSend(e.target.checked)}
-            />
-          </FormControl>
-          <Button type="submit" colorScheme="blue" width="full" mt={4}>
-            매장 등록
-          </Button>
-        </VStack>
-      </form>
-    </Box>
+            <FormControl>
+              <FormLabel fontSize="18px">키트 발송 여부</FormLabel>
+              <Switch
+                isChecked={kitSend}
+                onChange={(e) => setKitSend(e.target.checked)}
+              />
+            </FormControl>
+            <Flex
+              h="auto"
+              w="auto"
+              mt={4}
+              mb={16}
+              textAlign="center"
+              justify="center"
+              align="center"
+              gap={3}
+            >
+              <Link
+                onClick={nextTo}
+                _hover={{
+                  bg: "rgb(8, 47, 73)",
+                  color: "white",
+                }}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                bg="white"
+                border="2px solid"
+                borderColor="rgb(8, 47, 73)"
+                w={{ base: "48", md: "80" }}
+                h="16"
+                gap={3}
+                mb={24}
+                _focus={{ outline: "none" }}
+              >
+                <Text
+                  fontSize={{ base: "base", md: "xl" }}
+                  fontWeight="bold"
+                  color="inherit"
+                >
+                  다음 단계
+                </Text>
+              </Link>
+            </Flex>
+          </VStack>
+        </form>
+      </Box>
+    </>
   );
 };
 
