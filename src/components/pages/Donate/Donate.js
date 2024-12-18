@@ -13,7 +13,6 @@ import Stats from '../../atoms/Stats';
 import card1 from '../../../assets/images/devote_card_img_1.png';
 import card2 from '../../../assets/images/devote_card_img_2.png';
 import card3 from '../../../assets/images/devote_card_img_3.png';
-import DownLoadIcon from '../../atoms/DownLoadIcon';
 import ArrowRight from '../../../assets/svg/Arrow-right';
 
 const Donate = ({ onDownload }) => {
