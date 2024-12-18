@@ -33,9 +33,15 @@ const navigation = [
   { name: "커뮤니티", href: "/community/notice" },
 ];
 
-export default function Header({ user, handleLogout }) {
+export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const onLogout = () => {
+    setIsLoggedIn(false);
+    alert("로그아웃 성공!");
+  };
 
   return (
     <Box h="16">
@@ -134,7 +140,7 @@ export default function Header({ user, handleLogout }) {
                   <Link
                     as={RouterLink}
                     to={item.href}
-                    onClick={onClose} // Drawer를 닫기 위해 onClose를 사용합니다.
+                    onClick={onClose}
                     display="flex"
                     alignItems="center"
                     gap={3}
@@ -152,8 +158,35 @@ export default function Header({ user, handleLogout }) {
             </HStack>
           </Box>
 
+          {/* Login Button */}
+          <Box>
+            {isLoggedIn ? (
+              <Button
+                variant="ghost"
+                bg="white"
+                color="rgb(17, 24, 39)"
+                fontSize="0.875rem"
+                fontWeight="600"
+                onClick={onLogout}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button
+                as={RouterLink}
+                to="/store/auth"
+                bg="white"
+                color="rgb(17, 24, 39)"
+                fontSize="0.875rem"
+                fontWeight="600"
+              >
+                로그인
+              </Button>
+            )}
+          </Box>
+
           {/* Profile Dropdown */}
-          <Menu>
+          {/* <Menu>
             <MenuButton
               as={Button}
               variant="ghost"
@@ -175,7 +208,7 @@ export default function Header({ user, handleLogout }) {
                 </>
               )}
             </MenuList>
-          </Menu>
+          </Menu> */}
 
           {/* Mobile Menu Toggle */}
           <IconButton
