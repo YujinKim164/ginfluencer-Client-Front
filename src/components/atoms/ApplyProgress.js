@@ -39,24 +39,14 @@ const ApplyProgress = ({ step }) => {
               fontWeight="bold"
               fontSize={{ base: "sm", md: "lg" }}
             >
-              <Text
-                color={
-                  step === index + 1
-                    ? "teal.600" // 현재 단계
-                    : "gray.500" // 이전 단계
-                }
-              >
+              <Text color={step === index + 1 ? "teal.600" : "black"}>
                 {`0${index + 1} ${title}`}
               </Text>
               {index < steps.length - 1 && (
                 <Icon
                   as={ArrowDropRight}
                   boxSize={4}
-                  color={
-                    step === index + 1
-                      ? "teal.600" // 현재 단계
-                      : "gray.500" // 이전 단계
-                  }
+                  color={step === index + 1 ? "teal.600" : "black"}
                 />
               )}
             </HStack>
