@@ -38,13 +38,7 @@ export default function HomeCount() {
 
         // 후원아동 수 조회
         const sponsoredUserCountResponse = await axios.get(
-          process.env.REACT_APP_NAVI_API_URL + "sponsored-user-count",
-          {
-            headers: {
-              Authorization: API_KEY,
-              "Content-Type": "application/json",
-            },
-          }
+          `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
 
         // 후원금액 조회
@@ -68,7 +62,7 @@ export default function HomeCount() {
           {
             id: 2,
             name: "후원아동수",
-            value: `${sponsoredUserCountResponse.data.result}명`,
+            value: `${sponsoredUserCountResponse.data.totalChildrenCount}명`,
             icon: ICON2,
           },
           {
