@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment } from 'react';
 import {
   Box,
   Flex,
@@ -7,10 +7,10 @@ import {
   Image,
   UnorderedList,
   ListItem,
-} from "@chakra-ui/react";
-import nextIcon from "../../assets/images/detail.png";
-import nextIcon2 from "../../assets/images/go_basket_button.png";
-import xButton from "../../assets/images/X_button.png";
+} from '@chakra-ui/react';
+import nextIcon from '../../assets/images/detail.png';
+import nextIcon2 from '../../assets/images/go_basket_button.png';
+import xButton from '../../assets/images/X_button.png';
 
 export default function HomeContent({
   onlyContent,
@@ -35,7 +35,7 @@ export default function HomeContent({
             as="h1"
             mt={2}
             ml={2}
-            fontSize={{ base: "xl", sm: "4xl" }}
+            fontSize={{ base: 'xl', sm: '4xl' }}
             fontWeight="bold"
             textAlign="center"
             color="gray.900"
@@ -84,9 +84,9 @@ export default function HomeContent({
 
           <Flex justify="center" mt={10} cursor="pointer">
             <Image
-              src={id != null ? nextIcon : nextIcon2}
+              src={id != null ? nextIcon : null}
               onClick={onLink}
-              w={{ base: "24", md: id != null ? "36" : "56" }}
+              w={{ base: '24', md: id != null ? '36' : '56' }}
             />
           </Flex>
 
@@ -95,7 +95,7 @@ export default function HomeContent({
               src={content.img}
               objectFit="cover"
               w="full"
-              maxW={{ base: "xs", sm: "md", md: "lg", lg: "xl" }}
+              maxW={{ base: 'xs', sm: 'md', md: 'lg', lg: 'xl' }}
             />
           </Flex>
         </Box>

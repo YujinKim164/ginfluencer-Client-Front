@@ -1,6 +1,6 @@
-import React from "react";
-import { Box, Flex, Text, IconButton, useDisclosure } from "@chakra-ui/react";
-import HomeContent from "./HomeContent";
+import React from 'react';
+import { Box, Flex, Text, IconButton, useDisclosure } from '@chakra-ui/react';
+import HomeContent from './HomeContent';
 
 const Modal = ({ show, onClose, children, content, onLink, id, onModal }) => {
   if (!show) {
