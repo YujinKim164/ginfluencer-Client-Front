@@ -26,11 +26,14 @@ import {
   ProvideTarget2,
   SnsType,
 } from "../../../../constants/admin";
+import { useNavigate } from "react-router-dom";
 import ApplyTitle from "./../../../atoms/ApplyTitle";
 import ApplyProgress from "./../../../atoms/ApplyProgress";
 import Postcode from "./Postcode";
 
 const Step2 = ({ fetchAllStores, nextTo }) => {
+  const navigate = useNavigate();
+
   const [level, setLevel] = useState(MembershipLevel.ASSOCIATE_MEMBER);
   const [businessNumber, setBusinessNumber] = useState("");
   const [enrollDate, setEnrollDate] = useState("");
@@ -104,7 +107,13 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
     }
     setProvideItems(updatedItems);
   };
-
+  const handleNextStep = () => {
+    if (!validateForm) {
+      alert("필수 항목에 동의해주세요.");
+    } else {
+      navigate("/apply/step3");
+    }
+  };
   const validateForm = () => {
     const newErrors = {};
     if (!businessNumber)
@@ -142,22 +151,6 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  useEffect(() => {
-    // 현재 저장된 마지막 `no`를 가져오는 함수
-    const fetchLatestNo = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/admin/stores/latestNo`
-        );
-        const latestNo = response.data.latestNo;
-        setNo(latestNo + 1);
-      } catch (error) {
-        console.error("Error fetching latest no:", error);
-        setNo(1); // 오류 시 기본값으로 1을 설정
-      }
-    };
-    fetchLatestNo();
-  }, []);
   const formatTimeToServer = (time) => {
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD 형식의 오늘 날짜
     return `${today}T${time}:00`; // YYYY-MM-DDTHH:mm:ss 형식으로 반환
@@ -211,10 +204,8 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
         storeData,
         {
           headers: {
-            "Content-Type": "application/json", // JSON 형식으로 데이터를 전송
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": `http://localhost:3000`,
-            "Access-Control-Allow-Credentials": "true",
+            Authorization: `${localStorage.getItem("refreshToken")}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -260,6 +251,7 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
       // setStoreImgMenupan("");
       // setStoreImgMenu("");
       setNo((prevNo) => prevNo + 1);
+      navigate("/apply/step3");
     } catch (error) {
       console.error("Error creating store:", error);
       toast({
@@ -846,7 +838,7 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
               gap={3}
             >
               <Link
-                onClick={nextTo}
+                onClick={handleNextStep}
                 _hover={{
                   bg: "rgb(8, 47, 73)",
                   color: "white",
