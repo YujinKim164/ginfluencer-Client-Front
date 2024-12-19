@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 // import requestAPI from './requestAPI';
 // import postAPI from './postAPI';
 // import authAPI from './authAPI';
@@ -9,7 +9,7 @@ import axios from "axios";
 // import updateAPI from './updateAPI';
 // import donationAPI from './donationAPI';
 
-import noticeAPI from "./admin/noticeAPI";
+// import noticeAPI from "./admin/noticeAPI";
 // import storeAPI from './admin/storeAPI';
 // import askAPI from './admin/askAPI';
 // import faqAPI from './admin/faqAPI';
@@ -22,17 +22,17 @@ axios.defaults.withCredentials = true;
 
 export const setAuthHeaders = () => ({
   headers: {
-    Access_Token: "1234",
-    Web: "Y",
+    Access_Token: '1234',
+    Web: 'Y',
   },
   withCredentials: true,
 });
 
 export const setMultipartHeaders = () => ({
   headers: {
-    Access_Token: "1234566",
-    Web: "Y",
-    "Content-Type": "multipart/form-data",
+    Access_Token: '1234566',
+    Web: 'Y',
+    'Content-Type': 'multipart/form-data',
   },
 });
 
@@ -47,8 +47,8 @@ export const setMultipartHeaders = () => ({
 export const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
-    "Content-Type": "application/json",
-    Web: "Y",
+    'Content-Type': 'application/json',
+    Web: 'Y',
   },
   withCredentials: true,
 });
@@ -65,7 +65,7 @@ export const API = axios.create({
 
 // Admin
 // export const StoreAPI = storeAPI(API);
-export const NoticeAPI = noticeAPI(API);
+// export const NoticeAPI = noticeAPI(API);
 // export const AskAPI = askAPI(API);
 // export const FaqAPI = faqAPI(API);
 // export const AdminAuthAPI = adminAuthAPI(API);

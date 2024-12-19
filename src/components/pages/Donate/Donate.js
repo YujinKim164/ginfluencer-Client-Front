@@ -19,7 +19,7 @@ const Donate = ({ onDownload }) => {
   const textSize = useBreakpointValue({ base: "sm", md: "lg" });
 
   return (
-    <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }} h="100vh">
+    <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }}>
       <ApplyPageHeader IMG={banner} />
       <Box
         mx={{ base: 4, md: 10 }}
