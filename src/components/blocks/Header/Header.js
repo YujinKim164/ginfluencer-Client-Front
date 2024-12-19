@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useDisclosure,
   HStack,
   Drawer,
@@ -19,7 +15,7 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon } from "@chakra-ui/icons";
 
 import { Link as RouterLink } from "react-router-dom";
 import TitleBefore from "../../../assets/images/title_before.png";
@@ -34,7 +30,6 @@ const navigation = [
 ];
 
 export default function Header() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -125,16 +120,14 @@ export default function Header() {
             <Box w="24" h="12" bgImage={`url(${HeaderLogo})`} bgSize="cover" />
           </RouterLink>
 
-          {/* Centered Navigation */}
           <Box
             display={{ base: "none", lg: "flex" }}
             flex="1"
             justifyContent="center"
-            width="100%" // Ensure it stretches across full width
+            width="100%"
           >
             <HStack as={List} spacing={4} width="100%" justify="center">
               {" "}
-              {/* Added justify="center" */}
               {navigation.map((item) => (
                 <ListItem key={item.name} listStyleType="none">
                   <Link

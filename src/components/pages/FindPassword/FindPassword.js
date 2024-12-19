@@ -1,27 +1,9 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  Link,
-  Text,
-  VStack,
-  HStack,
-  Icon,
-} from "@chakra-ui/react";
-import {
-  MagnifyingGlassIcon,
-  LockClosedIcon,
-  InboxIcon,
-} from "@heroicons/react/24/solid";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Button, Heading, Input, Text, VStack } from "@chakra-ui/react";
 
 const FindPassword = () => {
   return (
     <Box w="full" overflow="hidden">
-      {/* 메인 섹션 */}
       <Box mx="auto" textAlign="center" py={{ base: 10, md: 16 }}>
         <Heading
           as="h2"

@@ -7,7 +7,7 @@ import Terms02 from "./../../../atoms/Terms02";
 import Terms01 from "./../../../atoms/Terms01";
 
 const Step1 = () => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
   const [checkBox1, setCheckBox1] = useState(false);
   const [checkBox2, setCheckBox2] = useState(false);
   const [isAllChecked, setIsAllChecked] = useState(false);
@@ -137,7 +137,6 @@ const Step1 = () => {
             </Checkbox>
           </Flex>
 
-          {/* 다음 단계 버튼 */}
           <Flex
             h="auto"
             w="auto"

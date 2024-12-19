@@ -25,12 +25,11 @@ const Login = ({ onLogin }) => {
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  // 로그인 처리 함수
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (email === "admin" && password === "1234") {
       alert("로그인 성공!");
-      onLogin(); // 로그인 상태 업데이트
+      onLogin();
       navigate("/");
       console.log("로그인 성공-관리자 모드");
     } else {
@@ -40,7 +39,6 @@ const Login = ({ onLogin }) => {
 
   return (
     <Box w="full" overflow="hidden">
-      {/* 메인 섹션 */}
       <Box mx="auto" textAlign="center" py={{ base: 10, md: 16 }}>
         <Heading
           as="h2"
@@ -53,7 +51,6 @@ const Login = ({ onLogin }) => {
           로그인
         </Heading>
 
-        {/* 로그인 폼 */}
         <Box
           as="form"
           w={{ base: "90%", md: "494px" }}
@@ -70,8 +67,8 @@ const Login = ({ onLogin }) => {
               size="lg"
               focusBorderColor="blue.500"
               h="60px"
-              value={email} // 상태를 value에 연결
-              onChange={handleEmailChange} // 입력 값 변경 시 상태 업데이트
+              value={email}
+              onChange={handleEmailChange}
             />
             <Input
               type="password"
@@ -80,8 +77,8 @@ const Login = ({ onLogin }) => {
               size="lg"
               focusBorderColor="blue.500"
               h="60px"
-              value={password} // 상태를 value에 연결
-              onChange={handlePasswordChange} // 입력 값 변경 시 상태 업데이트
+              value={password}
+              onChange={handlePasswordChange}
             />
             <Button
               type="submit"
@@ -97,7 +94,6 @@ const Login = ({ onLogin }) => {
           </VStack>
         </Box>
 
-        {/* 링크 섹션 */}
         <Box mb="60px">
           <HStack justify="center" spacing={6} mb={2}>
             <Link as={RouterLink} to="/store/findEmail" color="gray.500">
