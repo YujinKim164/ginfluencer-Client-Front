@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Image, Flex, Text } from "@chakra-ui/react";
+import { Grid, Image, Flex, Text } from "@chakra-ui/react";
 import icon1 from "../../assets/images/devote_icon_1.png";
 import icon2 from "../../assets/images/devote_icon_2.png";
 import icon3 from "../../assets/images/devote_icon_3.png";
@@ -40,14 +40,12 @@ export default function Stats() {
           `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
 
-        const data = response.data[0]; // API 응답이 배열이므로 첫 번째 요소를 가져옴
-
         setStats([
           {
             id: 1,
             name: "누적금액",
             value: 0,
-            finalValue: data.totalDonation,
+            finalValue: response.data.totalDonation,
             icon: icon1,
             scale: "원",
           },
@@ -55,7 +53,7 @@ export default function Stats() {
             id: 2,
             name: "기부자",
             value: 0,
-            finalValue: data.totalCount,
+            finalValue: response.data.totalCount,
             icon: icon2,
             scale: "명",
           },
@@ -63,7 +61,7 @@ export default function Stats() {
             id: 3,
             name: "사용금액",
             value: 0,
-            finalValue: data.totalSpend,
+            finalValue: response.data.totalSpend,
             icon: icon3,
             scale: "원",
           },

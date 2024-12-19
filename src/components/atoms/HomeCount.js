@@ -21,42 +21,28 @@ export default function HomeCount() {
   ]);
 
   useEffect(() => {
-    const API_KEY = "Basic " + process.env.REACT_APP_NAVI_KEY;
-
     const fetchStats = async () => {
       try {
-        // 나눔 수 조회
+        //누적회원 수 조회
         const nanumCountResponse = await axios.get(
-          process.env.REACT_APP_NAVI_API_URL + "nanum-count",
-          {
-            headers: {
-              Authorization: API_KEY,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        // 후원아동 수 조회
-        const sponsoredUserCountResponse = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
 
-        // 후원금액 조회
+        //후원아동 수 조회
+        const sponsoredUserCountResponse = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/all/donations/total-children-count`
+        );
+
+        //후원금액 조회
         const donationAmountResponse = await axios.get(
-          process.env.REACT_APP_NAVI_API_URL + "donation-amount",
-          {
-            headers: {
-              Authorization: API_KEY,
-              "Content-Type": "application/json",
-            },
-          }
+          `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
 
         setStats([
           {
             id: 1,
             name: "누적회원수",
-            value: `${nanumCountResponse.data.result}명`,
+            value: `${nanumCountResponse.data.totalCount}명`,
             icon: ICON1,
           },
           {
@@ -68,7 +54,7 @@ export default function HomeCount() {
           {
             id: 3,
             name: "후원금액",
-            value: `${donationAmountResponse.data.result}원`,
+            value: `${donationAmountResponse.data.totalDonation}원`,
             icon: ICON3,
           },
         ]);
