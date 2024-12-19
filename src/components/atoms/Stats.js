@@ -132,7 +132,7 @@ export default function Stats() {
               fontSize={{ base: "sm", md: "3xl" }}
               fontWeight="semibold"
               lineHeight="short"
-              color="blue.600"
+              color="rgb(8, 47, 73)"
             >
               {stat.value.toLocaleString()}
               {stat.scale}

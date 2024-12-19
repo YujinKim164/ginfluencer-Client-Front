@@ -15,25 +15,25 @@ import ICON3 from "../../assets/images/count_icon_3.png";
 
 export default function HomeCount() {
   const [stats, setStats] = useState([
-    { id: 1, name: "누적회원수", value: "0명", icon: ICON1 },
-    { id: 2, name: "후원아동수", value: "0명", icon: ICON2 },
-    { id: 3, name: "후원금액", value: "0원", icon: ICON3 },
+    { id: 1, name: "누적회원수", value: 0, icon: ICON1 },
+    { id: 2, name: "후원아동수", value: 0, icon: ICON2 },
+    { id: 3, name: "후원금액", value: 0, icon: ICON3 },
   ]);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        //누적회원 수 조회
+        // 누적회원 수 조회
         const nanumCountResponse = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
 
-        //후원아동 수 조회
+        // 후원아동 수 조회
         const sponsoredUserCountResponse = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/all/donations/total-children-count`
         );
 
-        //후원금액 조회
+        // 후원금액 조회
         const donationAmountResponse = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/all/donations`
         );
@@ -41,20 +41,20 @@ export default function HomeCount() {
         setStats([
           {
             id: 1,
-            name: "누적회원수",
-            value: `${nanumCountResponse.data.totalCount}명`,
+            name: "매장 회원수",
+            value: nanumCountResponse.data.totalCount,
             icon: ICON1,
           },
           {
             id: 2,
-            name: "후원아동수",
-            value: `${sponsoredUserCountResponse.data.totalChildrenCount}명`,
+            name: "후원 아동수",
+            value: sponsoredUserCountResponse.data.totalChildrenCount,
             icon: ICON2,
           },
           {
             id: 3,
-            name: "후원금액",
-            value: `${donationAmountResponse.data.totalDonation}원`,
+            name: "후원 금액",
+            value: donationAmountResponse.data.totalDonation,
             icon: ICON3,
           },
         ]);
@@ -80,16 +80,14 @@ export default function HomeCount() {
               bg="white"
               rounded="md"
               p={4}
-              maxW="full"
-              mx="auto"
               display="flex"
               justifyContent="space-between"
               alignItems="center"
             >
-              <Flex align="center" gap={2}>
+              <Flex align="center" gap={4}>
                 <Image src={stat.icon} alt="Icon" boxSize="24px" />
                 <Text
-                  fontSize={{ base: "xs", md: "base" }}
+                  fontSize={{ base: "md", md: "base" }}
                   fontWeight="semibold"
                   color="gray.600"
                 >
@@ -102,7 +100,12 @@ export default function HomeCount() {
                 color="gray.900"
                 lineHeight="shorter"
               >
-                {stat.value}
+                {stat.value.toLocaleString()}
+                {stat.id === 3
+                  ? "원"
+                  : stat.id === 1 || stat.id === 2
+                  ? "명"
+                  : ""}
               </Heading>
             </GridItem>
           ))}
