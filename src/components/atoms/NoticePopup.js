@@ -1,25 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Flex,
-  Text,
-  Checkbox,
-  Image,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Checkbox, Image } from "@chakra-ui/react";
+import axios from "axios";
 
-const NoticePopup = ({ notice, onClose }) => {
+const NoticePopup = ({ notice, setNotice }) => {
   const [dontShowToday, setDontShowToday] = useState(false);
 
   const handleClose = () => {
     if (dontShowToday) {
       const today = new Date();
-      today.setHours(23, 59, 59, 999); // set to end of day
+      today.setHours(23, 59, 59, 999); // Set to end of day
       localStorage.setItem("dontShowNoticeToday", today.getTime());
     }
-    onClose();
+    setNotice(null); // 팝업 닫기
   };
 
   const handleCheckboxChange = () => {
@@ -46,7 +39,7 @@ const NoticePopup = ({ notice, onClose }) => {
         rounded="lg"
         boxShadow="lg"
         width="full"
-        maxW={notice.realName ? "container.md" : "md"}
+        maxW="md"
         position="relative"
       >
         <Button
@@ -80,19 +73,13 @@ const NoticePopup = ({ notice, onClose }) => {
         </Text>
 
         <Text fontSize="sm" mb={4}>
-          {notice.contents}
+          {notice.content}
         </Text>
 
-        {notice.realName && (
-          <RouterLink
-            to={
-              notice.noticeIdx
-                ? `/community/notice/view/${notice.noticeIdx}`
-                : "/"
-            }
-          >
+        {notice.popUpFiles && notice.popUpFiles.length > 0 && (
+          <RouterLink to={`/community/notice/view/${notice.id}`}>
             <Image
-              src={`file/notice/popup/${notice.realName}`}
+              src={`${process.env.REACT_APP_BASE_URL}/${notice.popUpFiles[0].filePath}`}
               alt="팝업이미지"
               mb={4}
               width="full"

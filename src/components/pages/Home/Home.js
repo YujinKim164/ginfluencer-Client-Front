@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
   UnorderedList,
   ListItem,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Stats from "./../../atoms/Stats";
 import VIDEO from "./../../atoms/JTBCPlayer";
@@ -17,10 +18,36 @@ import ArrowRight from "./../../../assets/svg/Arrow-right";
 import { Link } from "react-router-dom";
 import { scrollTop } from "../../../util/scroll";
 import Post from "./../../atoms/Post";
+import NoticePopup from "./../../atoms/NoticePopup";
+import axios from "axios";
 
 const Home = ({ posts }) => {
+  const [notice, setNotice] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    const fetchPopup = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/all/popups/visible`
+        );
+        if (response.data && response.data.length > 0) {
+          const visibleNotice = response.data[0]; // 첫 번째 팝업을 사용할 경우
+          setNotice(visibleNotice);
+          onOpen(); // 팝업 열기
+        }
+      } catch (error) {
+        console.error("Error fetching popup data:", error);
+      }
+    };
+
+    fetchPopup();
+  }, [onOpen]);
+
   return (
     <Box>
+      {/* NoticePopup이 있을 때만 표시 */}
+      {notice && <NoticePopup notice={notice} setNotice={setNotice} />}
       <Flex direction="column" position="relative">
         <Flex
           direction="column"
