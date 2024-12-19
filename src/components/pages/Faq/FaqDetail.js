@@ -149,7 +149,7 @@ const FaqDetail = () => {
               color="black"
               _hover={{ color: 'sky.800' }}
             >
-              1:1문의
+              1:1 문의
             </Box>
             <Box
               as={RouterLink}
@@ -244,7 +244,7 @@ const FaqDetail = () => {
                   borderColor="sky.800"
                   mt={1}
                 >
-                  1:1문의
+                  1:1 문의
                 </Box>
               </>
             )}

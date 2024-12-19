@@ -28,6 +28,7 @@ const Ask = () => {
   const [pageSize, setPageSize] = useState(10);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [secretModal, setSecretModal] = useState(false);
+  const [id, setId] = useState(0);
   const askType = ['선한가게신청', '후원', '학생', '회원정보', '기타'];
 
   const handlePaginationNumber = (e) => {
@@ -48,6 +49,32 @@ const Ask = () => {
     } else {
       alert('마지막 페이지 입니다.');
     }
+  };
+
+  const handleSecretCheckClick = (e, id) => {
+    e.preventDefault();
+    setId(id);
+    setSecretModal(true);
+  };
+
+  const onSecretCheckClick = async (e) => {
+    e.preventDefault();
+    const secretPwd = e.target.secretPwd.value;
+    sessionStorage.setItem('secretPwd', secretPwd);
+    await axios
+      .get(
+        `${process.env.REACT_APP_BASE_URL}/api/all/inquiries/${id}?password=${secretPwd}`
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          setSecretModal(false);
+          setId(0);
+          window.location.href = `/community/ask/view/${id}`;
+        }
+      })
+      .catch((err) => {
+        alert('비밀번호가 일치하지 않습니다.');
+      });
   };
 
   useEffect(() => {
@@ -77,34 +104,37 @@ const Ask = () => {
 
             <ModalBody>
               {/* 비밀번호 입력 폼 */}
-              {/* <form onSubmit={onSecretCheckClick}> */}
-              <FormControl mb={4}>
-                <FormLabel
-                  htmlFor="secretPwd"
-                  fontSize="sm"
-                  fontWeight="medium"
-                >
-                  비밀번호
-                </FormLabel>
-                <Input
-                  type="password"
-                  id="secretPwd"
-                  name="secretPwd"
-                  required
-                  borderColor="blue.800"
-                  focusBorderColor="blue.500"
-                />
-              </FormControl>
+              <form onSubmit={onSecretCheckClick}>
+                <FormControl mb={4}>
+                  <FormLabel
+                    htmlFor="secretPwd"
+                    fontSize="sm"
+                    fontWeight="medium"
+                  >
+                    비밀번호
+                  </FormLabel>
+                  <Input
+                    type="password"
+                    id="secretPwd"
+                    name="secretPwd"
+                    required
+                    borderColor="blue.800"
+                    focusBorderColor="blue.500"
+                  />
+                </FormControl>
 
-              <Flex justify="flex-end" mt={6}>
-                <Button type="submit" colorScheme="blue" mr={3}>
-                  확인
-                </Button>
-                <Button variant="outline" onClick={() => setSecretModal(false)}>
-                  취소
-                </Button>
-              </Flex>
-              {/* </form> */}
+                <Flex justify="flex-end" mt={6}>
+                  <Button type="submit" colorScheme="blue" mr={3}>
+                    확인
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setSecretModal(false)}
+                  >
+                    취소
+                  </Button>
+                </Flex>
+              </form>
             </ModalBody>
           </ModalContent>
         </Modal>
@@ -350,7 +380,13 @@ const Ask = () => {
             <Box as="ul">
               {asks?.map((item) => (
                 <Box
-                  as="li"
+                  as={RouterLink}
+                  to={`/community/ask/view/${item.id}`}
+                  onClick={
+                    item.isSecret
+                      ? (e) => handleSecretCheckClick(e, item.id)
+                      : null
+                  }
                   key={item.id}
                   display={{ base: 'block', xl: 'flex' }}
                   textAlign={{ base: 'left', xl: 'center' }}
@@ -385,9 +421,7 @@ const Ask = () => {
                     transition="color 0.2s"
                     _hover={{ color: 'sky.700' }}
                   >
-                    <Box as={RouterLink} to={`/community/ask/view/${item.id}`}>
-                      {item.title}
-                    </Box>
+                    <Box>{item.title}</Box>
                   </Box>
                   <Box w="60" color="gray.500">
                     {item.isSecret && (

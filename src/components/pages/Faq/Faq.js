@@ -259,7 +259,8 @@ const Faq = () => {
             <Box as="ul">
               {faqs?.map((item) => (
                 <Box
-                  as="li"
+                  as={RouterLink}
+                  to={`/community/faq/view/${item.id}`}
                   key={item.id}
                   display={{ base: 'block', xl: 'flex' }}
                   textAlign={{ base: 'left', xl: 'center' }}
@@ -294,9 +295,7 @@ const Faq = () => {
                     transition="color 0.2s"
                     _hover={{ color: 'sky.700' }}
                   >
-                    <Box as={RouterLink} to={`/community/faq/view/${item.id}`}>
-                      {item.title}
-                    </Box>
+                    <Box>{item.title}</Box>
                   </Box>
                   <Box w="60" color="gray.500">
                     {item.createdDate.slice(0, 10)}

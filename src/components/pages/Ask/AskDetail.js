@@ -8,13 +8,14 @@ import {
   Button,
   Icon,
   Spinner,
+  Divider,
+  Link,
 } from '@chakra-ui/react';
 import axios from 'axios';
 
 const NoticeDetail = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [noticeContents, setNoticeContents] = useState({});
-  const [files, setFiles] = useState([]);
+  const [askContents, setAskContents] = useState({});
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   const { id } = useParams();
@@ -25,31 +26,17 @@ const NoticeDetail = () => {
       try {
         setIsLoading(true); // 페치 시작 전 로딩 표시
         const result = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/all/inquiries/${id}`
+          `${
+            process.env.REACT_APP_BASE_URL
+          }/api/all/inquiries/${id}?password=${sessionStorage.getItem(
+            'secretPwd'
+          )}`
         );
 
-        // 파일 관련 처리
-        const domain = 'https://www.선한영향력가게.com';
-        const serverFiles =
-          result.data.askFiles.map((file) => ({
-            ...file,
-            link: '/file/notice/' + file.originalFileName,
-            state: 'stable',
-            type: 'server',
-          })) || [];
-        setFiles(serverFiles);
-
-        // 이미지 주소(domain) 덧붙여서 교체
-        const updatedContents = result.data.content.replace(
-          /<img src="\/file\/notice\//g,
-          `<img src="${domain}/file/notice/`
-        );
-
-        // noticeContents를 업데이트
-        const updatedData = { ...result.data, content: updatedContents };
-        setNoticeContents(updatedData);
+        setAskContents(result.data);
       } catch (error) {
-        console.error('Failed to fetch notice:', error);
+        alert('비밀번호가 일치하지 않습니다.');
+        window.location.href = '/community/ask';
       } finally {
         setIsLoading(false); // 데이터 페치가 끝나면 로딩 false
       }
@@ -116,22 +103,6 @@ const NoticeDetail = () => {
               flexGrow={1}
               w="1/2"
               h="20"
-              bg="#365CA5"
-              color="white"
-              fontWeight="medium"
-              fontSize="xl"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              공지사항
-            </Box>
-            <Box
-              as={RouterLink}
-              to="/community/ask"
-              flexGrow={1}
-              w="1/2"
-              h="20"
               bg="gray.100"
               borderWidth="1px"
               borderRightWidth="0"
@@ -144,6 +115,22 @@ const NoticeDetail = () => {
               fontSize="xl"
               color="black"
               _hover={{ color: 'sky.800' }}
+            >
+              공지사항
+            </Box>
+            <Box
+              as={RouterLink}
+              to="/community/ask"
+              flexGrow={1}
+              w="1/2"
+              h="20"
+              bg="#365CA5"
+              color="white"
+              fontWeight="medium"
+              fontSize="xl"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
             >
               1:1문의
             </Box>
@@ -188,7 +175,7 @@ const NoticeDetail = () => {
               p={4}
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              공지
+              1:1 문의
               <Icon w={8}>
                 <svg
                   className="-mr-1 h-5 w-5 text-gray-400"
@@ -208,7 +195,7 @@ const NoticeDetail = () => {
               <>
                 <Box
                   as={RouterLink}
-                  to="/community/ask"
+                  to="/community/notice"
                   position="absolute"
                   left={0}
                   p={4}
@@ -224,7 +211,7 @@ const NoticeDetail = () => {
                   borderColor="sky.800"
                   mt={1}
                 >
-                  1:1문의
+                  공지
                 </Box>
                 <Box
                   as={RouterLink}
@@ -251,81 +238,60 @@ const NoticeDetail = () => {
           </Box>
         </Box>
 
-        {/* 본문 영역 */}
-        <Box py={10} fontFamily="sans-serif" w={{ base: 'full', xl: '3/4' }}>
+        {/* 본문 */}
+        <Box w={{ base: 'full', xl: '3/4' }} py="10">
+          {/* 질문 정보 */}
           <Box
-            mb={10}
-            borderTopWidth="1px"
-            borderBottomWidth="1px"
-            borderTopColor="black"
-            borderBottomColor="black"
-            borderStyle="solid"
+            mb="10"
+            borderTop="1px solid"
+            borderBottom="1px solid"
+            borderColor="black"
           >
             <Flex
               direction={{ base: 'column', xl: 'row' }}
-              w="full"
-              textAlign="center"
-              alignItems="center"
-              py={6}
-              borderBottomWidth="1px"
-              borderBottomColor="gray.300"
-              borderStyle="solid"
-              h="28"
+              align="center"
+              justify="space-between"
+              py="6"
+              borderBottom="1px solid"
+              borderColor="gray.300"
             >
-              <Heading
-                as="h2"
-                fontSize="2xl"
-                fontWeight="bold"
-                flexGrow={1}
-                textAlign={{ base: 'left', xl: 'left' }}
-                mb={{ base: 2, xl: 0 }}
-              >
-                {noticeContents.title}
+              <Heading as="h2" size="lg" fontWeight="bold">
+                {askContents.title}
               </Heading>
-              <Text
-                fontSize="lg"
-                color="gray.500"
-                fontWeight="medium"
-                whiteSpace="nowrap"
-              >
-                {noticeContents.createdDate.slice(0, 10)}
+              <Text fontSize="lg" color="gray.500" fontWeight="medium">
+                {askContents.createdDate.slice(0, 10)}
               </Text>
             </Flex>
-            <Box
-              textAlign="start"
-              fontSize="lg"
-              py={20}
-              fontWeight="medium"
-              dangerouslySetInnerHTML={createMarkup(noticeContents.content)}
-            />
+            <Text textAlign="start" fontSize="lg" py="20" fontWeight="medium">
+              {askContents.content}
+            </Text>
+
+            {/* 첨부파일 */}
+            {askContents.image && (
+              <Flex direction="column" w="full" alignItems="flex-start">
+                <Heading as="h2" fontSize="xl" fontWeight="bold" mb={4}>
+                  사진
+                </Heading>
+                <Flex direction="column" gap={2}>
+                  <img src={askContents.image} alt="첨부 이미지" />
+                </Flex>
+              </Flex>
+            )}
           </Box>
 
-          {/* 첨부파일 리스트 */}
-          {files.length === 0 ? null : (
-            <Flex direction="column" w="full" alignItems="flex-start">
-              <Heading as="h2" fontSize="xl" fontWeight="bold" mb={4}>
-                첨부파일
-              </Heading>
-              <Flex direction="column" gap={2}>
-                {files.map((file, index) => (
-                  <Flex
-                    key={index}
-                    align="center"
-                    fontSize="sm"
-                    color="gray.700"
-                  >
-                    <Box
-                      as="a"
-                      href={file.link}
-                      download={file.originalFileName}
-                      _hover={{ textDecoration: 'underline' }}
-                    >
-                      {file.originalFileName}
-                    </Box>
-                  </Flex>
-                ))}
-              </Flex>
-            </Flex>
+          {/* 답변 */}
+          {askContents.answer && (
+            <Box bg="gray.200" mb="12" p="4" style={{ textAlign: 'start' }}>
+              <Text>답변일: {askContents.createdDate.slice(0, 10)}</Text>
+              <Divider mt="4" borderColor="gray.400" />
+              <Box
+                dangerouslySetInnerHTML={createMarkup(askContents.answer)}
+                textAlign="start"
+                fontSize="lg"
+                py="20"
+                fontWeight="medium"
+              />
+            </Box>
           )}
 
           {/* 목록 버튼 */}
