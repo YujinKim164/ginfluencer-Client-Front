@@ -9,6 +9,7 @@ import {
   UnorderedList,
   ListItem,
   useDisclosure,
+  HStack,
 } from "@chakra-ui/react";
 import Stats from "./../../atoms/Stats";
 import VIDEO from "./../../atoms/JTBCPlayer";
@@ -127,6 +128,7 @@ const Home = ({ posts }) => {
             p={6}
             w={{ base: "52", md: "80" }}
             gap={1}
+            mb={20}
           >
             <Text
               fontSize={{ base: "xs", md: "lg" }}
@@ -139,52 +141,28 @@ const Home = ({ posts }) => {
           </Button>
         </Box>
       </Flex>
-      {/* Image 배열 */}
-      {/* <Box
-        mx="auto"
-        maxW="7xl"
-        px={{ base: 4, sm: 6, lg: 8 }}
-        display={{ base: "none", md: "flex" }}
-        justify="center"
-        align="center"
-        h="120"
+
+      <Flex
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-end"
+        mt={50}
       >
-        <Box
-          position="relative"
-          h="80%"
-          w="96"
-          md={{ w: "2/3" }}
-          borderWidth="1px"
-          borderColor="gray.300"
-        >
-          <Box position="absolute" left="0" top="0">
-            <Image src={IMG1} objectFit="cover" w="96" h="96" />
-          </Box>
-          <Box position="absolute" right="0" bottom="0">
-            <Image src={IMG2} objectFit="cover" w="96" h="96" />
-          </Box>
+        <Box marginRight={10}>
+          <Image src={IMG1} objectFit="cover" boxSize="96" />
         </Box>
-      </Box>
-      <Box
-        display={{ base: "flex", md: "none" }}
-        flexDirection="column"
-        align="center"
-        mt={8}
-      >
-        <Box mb={4}>
-          <Image src={IMG1} objectFit="cover" w="72" h="72" />
+        <Box position="relative" bottom="-120px">
+          <Image src={IMG2} objectFit="cover" boxSize="96" />
         </Box>
-        <Box>
-          <Image src={IMG2} objectFit="cover" w="72" h="72" />
-        </Box>
-      </Box> */}
-      {/* Community Section */}
+      </Flex>
+
+      {/* 커뮤니티 영역 */}
       <Box
         display="flex"
         flexDirection="column"
         width="100%"
         h={{ base: "26rem", md: "full" }}
-        mt={{ base: 14, md: 10 }}
+        mt={{ base: 14, md: 40 }}
       >
         <Flex
           direction={{ base: "column", md: "row" }}
