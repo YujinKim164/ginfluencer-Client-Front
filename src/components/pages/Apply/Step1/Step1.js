@@ -1,26 +1,48 @@
-import { useRef } from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Checkbox,
-  Button,
-  Stack,
-  VStack,
-  Link,
-} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // React Router 사용
+import { Box, Flex, Text, Checkbox, Link, VStack } from "@chakra-ui/react";
 import ApplyTitle from "./../../../atoms/ApplyTitle";
 import ApplyProgress from "./../../../atoms/ApplyProgress";
 import Terms02 from "./../../../atoms/Terms02";
 import Terms01 from "./../../../atoms/Terms01";
 
-const Step1 = ({
-  nextTo,
-  handleCheckBox,
-  isAllChecked,
-  checkBox1,
-  checkBox2,
-}) => {
+const Step1 = () => {
+  const navigate = useNavigate(); // useNavigate 훅 사용
+  const [checkBox1, setCheckBox1] = useState(false);
+  const [checkBox2, setCheckBox2] = useState(false);
+  const [isAllChecked, setIsAllChecked] = useState(false);
+
+  const handleCheckBox = (e, checkboxIndex) => {
+    const checked = e.target.checked;
+    if (checkboxIndex === 1) {
+      setCheckBox1(checked);
+    } else if (checkboxIndex === 2) {
+      setCheckBox2(checked);
+    } else if (checkboxIndex === 0) {
+      setIsAllChecked(checked);
+      setCheckBox1(checked);
+      setCheckBox2(checked);
+    }
+  };
+
+  useEffect(() => {
+    setIsAllChecked(checkBox1 && checkBox2);
+  }, [checkBox1, checkBox2]);
+
+  const isNextButtonDisabled = !(checkBox1 && checkBox2);
+
+  const handleAllCheckBoxChange = (e) => {
+    handleCheckBox(e, 0);
+  };
+
+  const handleNextStep = () => {
+    if (isNextButtonDisabled) {
+      alert("필수 항목에 동의해주세요.");
+    } else {
+      navigate("/apply/step2");
+    }
+  };
+
   return (
     <>
       {/* section1 */}
@@ -106,7 +128,7 @@ const Step1 = ({
             <Checkbox
               size="lg"
               isChecked={isAllChecked}
-              onChange={(e) => handleCheckBox(e, 0)}
+              onChange={handleAllCheckBoxChange}
               colorScheme="teal"
             >
               <Text fontSize={{ base: "sm", md: "lg" }}>
@@ -127,10 +149,10 @@ const Step1 = ({
             gap={3}
           >
             <Link
-              onClick={nextTo}
+              onClick={handleNextStep}
               _hover={{
-                bg: "rgb(8, 47, 73)",
-                color: "white",
+                bg: isNextButtonDisabled ? "gray.200" : "rgb(8, 47, 73)",
+                color: isNextButtonDisabled ? "gray.500" : "white",
               }}
               display="flex"
               alignItems="center"
@@ -143,6 +165,7 @@ const Step1 = ({
               gap={3}
               mb={24}
               _focus={{ outline: "none" }}
+              pointerEvents={isNextButtonDisabled ? "none" : "auto"}
             >
               <Text
                 fontSize={{ base: "base", md: "xl" }}
