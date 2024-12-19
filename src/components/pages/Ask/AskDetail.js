@@ -32,7 +32,6 @@ const NoticeDetail = () => {
             'secretPwd'
           )}`
         );
-
         setAskContents(result.data);
       } catch (error) {
         alert('비밀번호가 일치하지 않습니다.');
@@ -282,7 +281,7 @@ const NoticeDetail = () => {
           {/* 답변 */}
           {askContents.answer && (
             <Box bg="gray.200" mb="12" p="4" style={{ textAlign: 'start' }}>
-              <Text>답변일: {askContents.createdDate.slice(0, 10)}</Text>
+              <Text>답변일: {askContents.answerDate.slice(0, 10)}</Text>
               <Divider mt="4" borderColor="gray.400" />
               <Box
                 dangerouslySetInnerHTML={createMarkup(askContents.answer)}
