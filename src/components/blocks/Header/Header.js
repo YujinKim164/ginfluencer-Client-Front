@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useDisclosure,
   HStack,
   Drawer,
@@ -19,7 +15,7 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon } from "@chakra-ui/icons";
 
 import { Link as RouterLink } from "react-router-dom";
 import TitleBefore from "../../../assets/images/title_before.png";
@@ -33,9 +29,14 @@ const navigation = [
   { name: "커뮤니티", href: "/community/notice" },
 ];
 
-export default function Header({ user, handleLogout }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const onLogout = () => {
+    setIsLoggedIn(false);
+    alert("로그아웃 성공!");
+  };
 
   return (
     <Box h="16">
@@ -119,22 +120,20 @@ export default function Header({ user, handleLogout }) {
             <Box w="24" h="12" bgImage={`url(${HeaderLogo})`} bgSize="cover" />
           </RouterLink>
 
-          {/* Centered Navigation */}
           <Box
             display={{ base: "none", lg: "flex" }}
             flex="1"
             justifyContent="center"
-            width="100%" // Ensure it stretches across full width
+            width="100%"
           >
             <HStack as={List} spacing={4} width="100%" justify="center">
               {" "}
-              {/* Added justify="center" */}
               {navigation.map((item) => (
                 <ListItem key={item.name} listStyleType="none">
                   <Link
                     as={RouterLink}
                     to={item.href}
-                    onClick={onClose} // Drawer를 닫기 위해 onClose를 사용합니다.
+                    onClick={onClose}
                     display="flex"
                     alignItems="center"
                     gap={3}
@@ -152,8 +151,35 @@ export default function Header({ user, handleLogout }) {
             </HStack>
           </Box>
 
+          {/* Login Button */}
+          <Box>
+            {isLoggedIn ? (
+              <Button
+                variant="ghost"
+                bg="white"
+                color="rgb(17, 24, 39)"
+                fontSize="0.875rem"
+                fontWeight="600"
+                onClick={onLogout}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button
+                as={RouterLink}
+                to="/store/auth"
+                bg="white"
+                color="rgb(17, 24, 39)"
+                fontSize="0.875rem"
+                fontWeight="600"
+              >
+                로그인
+              </Button>
+            )}
+          </Box>
+
           {/* Profile Dropdown */}
-          <Menu>
+          {/* <Menu>
             <MenuButton
               as={Button}
               variant="ghost"
@@ -175,7 +201,7 @@ export default function Header({ user, handleLogout }) {
                 </>
               )}
             </MenuList>
-          </Menu>
+          </Menu> */}
 
           {/* Mobile Menu Toggle */}
           <IconButton

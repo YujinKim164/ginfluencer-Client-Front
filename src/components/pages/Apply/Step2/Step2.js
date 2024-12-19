@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Input,
-  Button,
   FormControl,
   FormLabel,
   VStack,
@@ -14,7 +13,6 @@ import {
   Switch,
   RadioGroup,
   Radio,
-  Heading,
   Divider,
   Text,
   Flex,
@@ -107,13 +105,6 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
     setProvideItems(updatedItems);
   };
 
-  const handleAddProvideItem = () => {
-    setProvideItems([
-      ...provideItems,
-      { name: "", existingPrice: 0, providePrice: 0, freeProvide: false },
-    ]);
-  };
-
   const validateForm = () => {
     const newErrors = {};
     if (!businessNumber)
@@ -152,14 +143,14 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
   };
 
   useEffect(() => {
-    // 현재 저장된 마지막 `no`를 가져오는 함수 예시
+    // 현재 저장된 마지막 `no`를 가져오는 함수
     const fetchLatestNo = async () => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/admin/stores/latestNo`
         );
-        const latestNo = response.data.latestNo; // 서버에서 마지막 `no` 값 반환
-        setNo(latestNo + 1); // 마지막 `no`에 +1하여 초기화
+        const latestNo = response.data.latestNo;
+        setNo(latestNo + 1);
       } catch (error) {
         console.error("Error fetching latest no:", error);
         setNo(1); // 오류 시 기본값으로 1을 설정
@@ -173,7 +164,6 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // if (!validateForm()) return;
 
     const storeData = {
       no,
@@ -216,7 +206,6 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
     };
 
     try {
-      // await axiosInstance.post("/api/admin/stores/create", storeData);
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/admin/stores/create`,
         storeData,
@@ -662,7 +651,6 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
                     }
                   />
                 </FormControl>
-                {/* TODO: 제공품목 유효성 검사 코드 부분 위로 올리기 */}
                 {errors[`provideItem${index}`] && (
                   <Text color="red.500">{errors[`provideItem${index}`]}</Text>
                 )}
@@ -832,7 +820,6 @@ const Step2 = ({ fetchAllStores, nextTo }) => {
               </VStack>
             </FormControl>
 
-            {/* 추가된 파라미터들 */}
             <FormControl>
               <FormLabel fontSize="18px">스티커 발송 여부</FormLabel>
               <Switch

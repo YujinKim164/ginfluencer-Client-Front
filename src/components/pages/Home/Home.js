@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -8,6 +8,8 @@ import {
   Image,
   UnorderedList,
   ListItem,
+  useDisclosure,
+  HStack,
 } from "@chakra-ui/react";
 import Stats from "./../../atoms/Stats";
 import VIDEO from "./../../atoms/JTBCPlayer";
@@ -17,10 +19,36 @@ import ArrowRight from "./../../../assets/svg/Arrow-right";
 import { Link } from "react-router-dom";
 import { scrollTop } from "../../../util/scroll";
 import Post from "./../../atoms/Post";
+import NoticePopup from "./../../atoms/NoticePopup";
+import axios from "axios";
 
 const Home = ({ posts }) => {
+  const [notice, setNotice] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    const fetchPopup = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/all/popups/visible`
+        );
+        if (response.data && response.data.length > 0) {
+          const visibleNotice = response.data[0]; // 첫 번째 팝업을 사용할 경우
+          setNotice(visibleNotice);
+          onOpen(); // 팝업 열기
+        }
+      } catch (error) {
+        console.error("Error fetching popup data:", error);
+      }
+    };
+
+    fetchPopup();
+  }, [onOpen]);
+
   return (
     <Box>
+      {/* NoticePopup이 있을 때만 표시 */}
+      {notice && <NoticePopup notice={notice} setNotice={setNotice} />}
       <Flex direction="column" position="relative">
         <Flex
           direction="column"
@@ -100,6 +128,7 @@ const Home = ({ posts }) => {
             p={6}
             w={{ base: "52", md: "80" }}
             gap={1}
+            mb={20}
           >
             <Text
               fontSize={{ base: "xs", md: "lg" }}
@@ -112,52 +141,28 @@ const Home = ({ posts }) => {
           </Button>
         </Box>
       </Flex>
-      {/* Image 배열 */}
-      {/* <Box
-        mx="auto"
-        maxW="7xl"
-        px={{ base: 4, sm: 6, lg: 8 }}
-        display={{ base: "none", md: "flex" }}
-        justify="center"
-        align="center"
-        h="120"
+
+      <Flex
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-end"
+        mt={50}
       >
-        <Box
-          position="relative"
-          h="80%"
-          w="96"
-          md={{ w: "2/3" }}
-          borderWidth="1px"
-          borderColor="gray.300"
-        >
-          <Box position="absolute" left="0" top="0">
-            <Image src={IMG1} objectFit="cover" w="96" h="96" />
-          </Box>
-          <Box position="absolute" right="0" bottom="0">
-            <Image src={IMG2} objectFit="cover" w="96" h="96" />
-          </Box>
+        <Box marginRight={10}>
+          <Image src={IMG1} objectFit="cover" boxSize="96" />
         </Box>
-      </Box>
-      <Box
-        display={{ base: "flex", md: "none" }}
-        flexDirection="column"
-        align="center"
-        mt={8}
-      >
-        <Box mb={4}>
-          <Image src={IMG1} objectFit="cover" w="72" h="72" />
+        <Box position="relative" bottom="-120px">
+          <Image src={IMG2} objectFit="cover" boxSize="96" />
         </Box>
-        <Box>
-          <Image src={IMG2} objectFit="cover" w="72" h="72" />
-        </Box>
-      </Box> */}
-      {/* Community Section */}
+      </Flex>
+
+      {/* 커뮤니티 영역 */}
       <Box
         display="flex"
         flexDirection="column"
         width="100%"
         h={{ base: "26rem", md: "full" }}
-        mt={{ base: 14, md: 10 }}
+        mt={{ base: 14, md: 40 }}
       >
         <Flex
           direction={{ base: "column", md: "row" }}

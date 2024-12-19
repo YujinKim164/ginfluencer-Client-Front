@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './MainLayout';
 import Home from './components/pages/Home';
@@ -24,14 +25,18 @@ import Privacy from './components/pages/Policy/Privacy/Privacy';
 import AskForm from './components/pages/Ask/AskForm';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const handleLogin = () => setIsLoggedIn(true); // 로그인 상태 true로 업데이트
+  const handleLogout = () => setIsLoggedIn(false); // 로그아웃 시 false로 업데이트
+
   return (
-    <MainLayout>
+    <MainLayout isLoggedIn={isLoggedIn} onLogout={handleLogout}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
 
         <Route path="/store">
-          <Route path="auth" element={<Login />} />
+          <Route path="auth" element={<Login onLogin={handleLogin} />} />
           <Route path="findEmail" element={<FindEmail />} />
           <Route path="findPwd" element={<FindPassword />} />
           <Route path="myinfo" element={<MyInfo />} />

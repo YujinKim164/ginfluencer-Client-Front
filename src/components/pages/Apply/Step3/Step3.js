@@ -1,16 +1,14 @@
 import { Box, Text, Flex, Heading, VStack, HStack } from "@chakra-ui/react";
 import ApplyTitle from "../../../atoms/ApplyTitle";
 import ApplyProgress from "../../../atoms/ApplyProgress";
+import completeImage from "../../../../assets/images/step3_img.png";
 
 const Step3 = () => {
   return (
     <>
-      {/* section1 */}
       <Box id="section1" mb={{ base: 4, md: 0 }}>
         <ApplyTitle title={"선한영향력가게 회원 신청"} />
       </Box>
-
-      {/* section2 */}
       <Box
         id="section2"
         display="flex"
@@ -22,59 +20,65 @@ const Step3 = () => {
 
         <VStack spacing={10} w="full" align="center" mt={10} mb={56}>
           <Flex
-            direction={{ base: "column", md: "row" }}
+            direction={{ base: "row", md: "column" }}
             w="full"
             h={{ base: "auto", md: "96" }}
             justify="space-between"
-            align="center"
           >
-            <Box
-              flex="1"
-              mb={{ base: 8, md: 0 }}
-              textAlign="center"
-              color="gray.700"
-            >
-              <Heading
-                as="h2"
-                size={{ base: "xl", md: "2xl" }}
-                fontWeight="semibold"
-                mb={4}
-              >
-                <Text as="span">선한영향력가게</Text>
-                <br />
-                <Text as="span" color="yellow.400" textDecoration="underline">
-                  신청이 완료 되었습니다.
+            <HStack>
+              <Box color="gray.700" ml="150px">
+                <Text
+                  fontSize={{ base: "5xl", md: "4xl" }}
+                  fontWeight="bold"
+                  letterSpacing="-3px"
+                >
+                  선한영향력가게
                 </Text>
-              </Heading>
-              <Text
-                fontSize={{ base: "md", md: "lg" }}
-                fontWeight="normal"
-                mb={8}
-              >
-                선한영향력가게 신청에 감사드리며 <br />
-                신청해 주신 모든 점주님들께 <br />
-                선한영향력가게 스티커를 보내드립니다.
-              </Text>
-            </Box>
-            <Box
-              w="full"
-              h={{ base: "48", md: "full" }}
-              bgImage="url('./assets/images/step3_img.png')"
-              bgSize="cover"
-              bgPosition="center"
-            />
+                <Text
+                  as="h2"
+                  fontSize={{ base: "5xl", md: "4xl" }}
+                  fontWeight="bold"
+                  textDecoration="underline"
+                  textDecorationColor="#fef08a"
+                  textDecorationThickness="16px"
+                  textUnderlineOffset="-1px"
+                  letterSpacing="-3px"
+                >
+                  신청이 완료되었습니다.
+                </Text>
+                <Text
+                  fontSize={{ base: "md", md: "lg" }}
+                  fontWeight="normal"
+                  mb={8}
+                  mt={16}
+                >
+                  선한영향력가게 신청에 감사드리며 <br />
+                  신청해 주신 모든 점주님들께 <br />
+                  선한영향력가게 스티커를 보내드립니다.
+                </Text>
+              </Box>
+              <Box
+                ml={20}
+                w="52%"
+                h={{ base: "200px", md: "400px" }}
+                bgImage={completeImage}
+                bgSize="cover"
+                bgPosition="center"
+              />
+            </HStack>
           </Flex>
 
           <HStack
             spacing={10}
-            w="full"
             justify="center"
             direction={{ base: "column", md: "row" }}
           >
             <Box
               flex="1"
               textAlign={{ base: "center", md: "left" }}
-              fontSize={{ base: "lg", md: "xl" }}
+              fontSize={{ base: "xl", md: "2xl" }}
+              fontWeight="semibold"
+              ml="150px"
             >
               <Text>
                 정회원연회비는 아동과 선한 영향력을 통한
@@ -88,6 +92,8 @@ const Step3 = () => {
               flex="1"
               textAlign={{ base: "center", md: "left" }}
               fontSize={{ base: "sm", md: "lg" }}
+              mt={20}
+              mr={28}
             >
               <Text mb={4}>
                 연회비는 정관 제8조에 의거하여 정보를 투명하게 운영/관리합니다.

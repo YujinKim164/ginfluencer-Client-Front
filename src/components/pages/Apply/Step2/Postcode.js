@@ -31,7 +31,6 @@ function Postcode({ setStorePostcode, setStoreAddress }) {
       fullAddress += extraAddress !== "" ? `(${extraAddress})` : "";
     }
 
-    // 부모 상태 업데이트
     setStoreAddress(localAddress + " " + fullAddress);
 
     // 팝업 닫기

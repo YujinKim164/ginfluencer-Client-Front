@@ -6,17 +6,17 @@ import {
   Image,
   Button,
   Link,
-} from '@chakra-ui/react';
-import ApplyPageHeader from '../../atoms/ApplyPageHeader';
-import banner from '../../../assets/images/devote_banner.png';
-import Stats from '../../atoms/Stats';
-import card1 from '../../../assets/images/devote_card_img_1.png';
-import card2 from '../../../assets/images/devote_card_img_2.png';
-import card3 from '../../../assets/images/devote_card_img_3.png';
-import ArrowRight from '../../../assets/svg/Arrow-right';
+} from "@chakra-ui/react";
+import ApplyPageHeader from "../../atoms/ApplyPageHeader";
+import banner from "../../../assets/images/devote_banner.png";
+import Stats from "../../atoms/Stats";
+import card1 from "../../../assets/images/devote_card_img_1.png";
+import card2 from "../../../assets/images/devote_card_img_2.png";
+import card3 from "../../../assets/images/devote_card_img_3.png";
+import ArrowRight from "../../../assets/svg/Arrow-right";
 
 const Donate = ({ onDownload }) => {
-  const textSize = useBreakpointValue({ base: 'sm', md: 'lg' });
+  const textSize = useBreakpointValue({ base: "sm", md: "lg" });
 
   return (
     <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }}>
@@ -27,16 +27,16 @@ const Donate = ({ onDownload }) => {
         mb={{ base: 12, md: 16 }}
       >
         <Text
-          fontSize={{ base: '2xl', md: '5xl' }}
+          fontSize={{ base: "2xl", md: "5xl" }}
           fontWeight="semibold"
           mb={4}
         >
           후원
         </Text>
         <Text
-          fontSize={{ base: 'sm', md: 'md' }}
+          fontSize={{ base: "sm", md: "md" }}
           fontWeight="semibold"
-          lineHeight={{ base: 'tall', md: 'taller' }}
+          lineHeight={{ base: "tall", md: "taller" }}
         >
           사단법인 선한영향력가게는 회비와 특별회비로 운영되며
           <br />
@@ -44,7 +44,7 @@ const Donate = ({ onDownload }) => {
         </Text>
       </Box>
       <Stats />
-      <Flex direction={{ base: 'column', md: 'row' }} gap={8} px={8} py={16}>
+      <Flex direction={{ base: "column", md: "row" }} gap={8} px={8} py={16}>
         {/* 첫 번째 카드 */}
         <Box
           flex="1"
@@ -64,7 +64,6 @@ const Donate = ({ onDownload }) => {
             <br />
             의미있게 사용됩니다.
           </Text>
-          {/* <Link href="/apply/step1" _hover={{ textDecoration: 'none' }}> */}
           <Button
             colorScheme="yellow"
             size="lg"
@@ -73,13 +72,12 @@ const Donate = ({ onDownload }) => {
           >
             정기 후원하기
           </Button>
-          {/* </Link> */}
           <Box h={48} />
           <Image
             src={card1}
             alt="Card 1"
-            w={{ base: '36', md: '72' }}
-            h={{ base: '28', md: '56' }}
+            w={{ base: "36", md: "72" }}
+            h={{ base: "28", md: "56" }}
             position="absolute"
             bottom={4}
             right={4}
@@ -111,7 +109,7 @@ const Donate = ({ onDownload }) => {
           </Text>
           <Link
             href="https://pf.kakao.com/_vSXxob"
-            _hover={{ textDecoration: 'none' }}
+            _hover={{ textDecoration: "none" }}
             target="_blank"
           >
             <Button
@@ -127,8 +125,8 @@ const Donate = ({ onDownload }) => {
           <Image
             src={card2}
             alt="Card 2"
-            w={{ base: '36', md: '72' }}
-            h={{ base: '28', md: '56' }}
+            w={{ base: "36", md: "72" }}
+            h={{ base: "28", md: "56" }}
             position="absolute"
             bottom={4}
             right={320}
@@ -136,8 +134,8 @@ const Donate = ({ onDownload }) => {
           <Image
             src={card3}
             alt="Card 3"
-            w={{ base: '36', md: '72' }}
-            h={{ base: '28', md: '56' }}
+            w={{ base: "36", md: "72" }}
+            h={{ base: "28", md: "56" }}
             objectFit="cover"
             position="absolute"
             bottom={4}
