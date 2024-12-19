@@ -25,7 +25,7 @@ const FaqDetail = () => {
       try {
         setIsLoading(true); // 페치 시작 전 로딩 표시
         const result = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}api/all/faqs/${id}`
+          `${process.env.REACT_APP_BASE_URL}/api/all/faqs/${id}`
         );
 
         // 파일 관련 처리

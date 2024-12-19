@@ -36,7 +36,7 @@ const Faq = () => {
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}api/all/faqs`
+        `${process.env.REACT_APP_BASE_URL}/api/all/faqs`
       );
       setFaqs(result.data);
       // setTotalPages(result['page']['totalPages']);

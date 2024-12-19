@@ -17,6 +17,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
+import FindPassword from '../FindPassword/FindPassword';
 
 const AskForm = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -85,10 +86,15 @@ const AskForm = () => {
       data.notiEmail = '';
     }
 
+    console.log(data);
+
     async function createAsk(params) {
+      const form = new FormData();
+      form.append('file', params.file);
+
       const image = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}api/all/image`,
-        params.file,
+        `${process.env.REACT_APP_BASE_URL}/api/all/image`,
+        form,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -96,10 +102,16 @@ const AskForm = () => {
         }
       );
       const result = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}api/all/inquiries`,
+        `${process.env.REACT_APP_BASE_URL}/api/all/inquiries`,
         {
-          ...params,
-          file: image.data,
+          category: params.type,
+          title: params.title,
+          content: params.contents,
+          isSecret: params.secretYn === 'Y' ? true : false,
+          password: params.secretPwd || null,
+          email: params.notiEmail || null,
+          emailChecked: params.notiYn === 'Y' ? true : false,
+          file: image.data || null,
         }
       );
       if (result.status === 200) {

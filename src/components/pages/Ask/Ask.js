@@ -1,4 +1,18 @@
-import { Box, Text, Flex, Button, Icon } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Flex,
+  Button,
+  Icon,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import ApplyPageHeader from '../../atoms/ApplyPageHeader';
 import banner from '../../../assets/images/community_notice_banner.png';
@@ -13,6 +27,7 @@ const Ask = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [secretModal, setSecretModal] = useState(false);
   const askType = ['선한가게신청', '후원', '학생', '회원정보', '기타'];
 
   const handlePaginationNumber = (e) => {
@@ -38,10 +53,9 @@ const Ask = () => {
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}api/all/inquiries`
+        `${process.env.REACT_APP_BASE_URL}/api/all/inquiries`
       );
       setAsks(result.data);
-      console.log(result.data);
       // setTotalPages(result['page']['totalPages']);
     }
     fetchData();
@@ -49,6 +63,52 @@ const Ask = () => {
 
   return (
     <Box p={{ base: 4, md: 8 }} mb={{ base: 8, md: 16 }} h="100vh">
+      {secretModal && (
+        <Modal
+          isOpen={secretModal}
+          onClose={() => setSecretModal(false)}
+          isCentered
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader fontSize="xl" fontWeight="semibold">
+              비밀번호 입력
+            </ModalHeader>
+
+            <ModalBody>
+              {/* 비밀번호 입력 폼 */}
+              {/* <form onSubmit={onSecretCheckClick}> */}
+              <FormControl mb={4}>
+                <FormLabel
+                  htmlFor="secretPwd"
+                  fontSize="sm"
+                  fontWeight="medium"
+                >
+                  비밀번호
+                </FormLabel>
+                <Input
+                  type="password"
+                  id="secretPwd"
+                  name="secretPwd"
+                  required
+                  borderColor="blue.800"
+                  focusBorderColor="blue.500"
+                />
+              </FormControl>
+
+              <Flex justify="flex-end" mt={6}>
+                <Button type="submit" colorScheme="blue" mr={3}>
+                  확인
+                </Button>
+                <Button variant="outline" onClick={() => setSecretModal(false)}>
+                  취소
+                </Button>
+              </Flex>
+              {/* </form> */}
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      )}
       <ApplyPageHeader IMG={banner} />
       <Box
         mx={{ base: 4, md: 10 }}

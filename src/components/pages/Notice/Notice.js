@@ -37,7 +37,7 @@ const Notice = () => {
   useEffect(() => {
     async function fetchData() {
       const result = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}api/all/announcements`
+        `${process.env.REACT_APP_BASE_URL}/api/all/announcements`
       );
       setNotices(result.data);
       // setTotalPages(result['page']['totalPages']);
