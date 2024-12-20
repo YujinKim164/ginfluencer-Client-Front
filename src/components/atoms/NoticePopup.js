@@ -79,7 +79,7 @@ const NoticePopup = ({ notice, setNotice }) => {
         {notice.popUpFiles && notice.popUpFiles.length > 0 && (
           <RouterLink to={`/community/notice/view/${notice.id}`}>
             <Image
-              src={`${process.env.REACT_APP_BASE_URL}/${notice.popUpFiles[0].filePath}`}
+              src={`https://good-influence-shop-3.s3.ap-northeast-2.amazonaws.com/popup/file/2024/12/760d3fd0-cb02-4e87-a53f-01d51373f5df_programmers.jpeg`}
               alt="팝업이미지"
               mb={4}
               width="full"
